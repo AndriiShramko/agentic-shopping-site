@@ -1,0 +1,24 @@
+import { chromium } from "playwright";
+const BASE = process.env.BASE ?? "https://agentic-shopping.flyreelstudio.eu";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+const page = await ctx.newPage();
+const reqs = [];
+page.on("response", (r) => { const u = r.url(); if (/google-analytics|googletagmanager|analytics\.google|doubleclick/.test(u)) reqs.push({ url: u.slice(0, 90), status: r.status() }); });
+await page.goto(`${BASE}/en/`, { waitUntil: "networkidle" });
+await page.waitForTimeout(1500);
+const before = reqs.length;
+const bannerVisible = await page.locator('[role="dialog"]').filter({ hasText: /Analytics/ }).isVisible().catch(() => false);
+console.log("before consent: google requests =", before, "| banner visible =", bannerVisible);
+await page.locator('[role="dialog"] button', { hasText: /Accept/ }).click();
+await page.waitForTimeout(4000);
+await page.locator('a[href="#install"]').first().click();
+await page.waitForTimeout(2500);
+const collect = reqs.filter((r) => /\/g\/collect/.test(r.url));
+console.log("after accept: gtag loaded =", reqs.some((r) => /gtag\/js\?id=G-2288CN6DJW/.test(r.url)), "| /g/collect hits =", collect.length, collect.map((c) => c.status).join(","));
+// reload: consent remembered → gtag loads again without banner
+await page.reload({ waitUntil: "networkidle" });
+await page.waitForTimeout(1500);
+console.log("after reload: banner visible =", await page.locator('[role="dialog"]').filter({ hasText: /Analytics/ }).isVisible().catch(() => false), "| total google requests =", reqs.length);
+await browser.close();
+process.exit(before === 0 && collect.length > 0 && collect.every((c) => c.status === 204 || c.status === 200) ? 0 : 1);

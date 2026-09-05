@@ -15,9 +15,11 @@ The site answers the questions people ask their AI about autonomous shopping age
 ```bash
 cd web
 npm install
-NEXT_PUBLIC_TEST_COUNT=123 NEXT_PUBLIC_GA_ID=G-XXXXXXX npm run build   # GA id optional
+NEXT_PUBLIC_TEST_COUNT=166 NEXT_PUBLIC_GA_ID=G-2288CN6DJW npm run build   # GA4 property "Agentic Shopping Autopilot", web stream agentic-shopping.flyreelstudio.eu
 node scripts/fix-lang.mjs          # per-locale <html lang> after static export
 node scripts/shots.mjs             # Playwright screenshots + heading visibility + overflow checks
+node scripts/verify-live.mjs       # DoD: locales, switcher + cookie, form e2e, links, sticky CTA
+node scripts/ga-check.mjs          # GA4 consent gate: 0 requests before Accept, /g/collect 204 after
 ```
 
 `out/` is what nginx serves. Locale redirect on `/` is done by nginx, not by the app, so a plain static host needs the same redirect rule or a link to `/en/`.
