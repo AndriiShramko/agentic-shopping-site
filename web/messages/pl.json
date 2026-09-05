@@ -25,7 +25,7 @@
   "hero": {
     "eyebrow": "Open source · Apache-2.0 · Działa w Twojej własnej przeglądarce",
     "h1": "Agent AI zapłacił za realny towar na Allegro. Bez człowieka przy kasie.",
-    "sub": "Warstwa open source dla agenta AI, którego już używasz. Najpierw czyta Twoje własne notatki, potem zamawia i płaci na Allegro.pl w Twoim zalogowanym Chrome — w ramach mandatu zakupowego, który podpisujesz raz.",
+    "sub": "Warstwa open source dla agenta AI, którego już używasz. Najpierw czyta Twoje własne notatki, sam wybiera właściwy towar, wkłada go do koszyka i płaci na Allegro.pl w Twoim zalogowanym Chrome — w ramach mandatu zakupowego, który podpisujesz raz. Zatwierdzenie koszyka: jedno słowo od Ciebie albo żadne, jeśli tak stanowi Twój mandat.",
     "ctaPrimary": "Zainstaluj ze swoim agentem",
     "ctaSecondary": "Przeczytaj kod na GitHub",
     "updated": "Aktualizacja {date} · alfa v{version} · testy automatyczne: {testCount} · 1 realna płatność",
@@ -33,7 +33,7 @@
       "title": "Pierwsza autonomiczna płatność",
       "desktop": "ALLEGRO.PL                                2026-09-05\n----------------------------------------------------\nDrywall toggle anchors, 15 × 3.10 PLN      46.50 PLN\nDelivery · Allegro Smart!                   0.00 PLN\n                           (cheapest paid: 10.95 PLN)\n----------------------------------------------------\nPayment             card already saved in the account\nBank 3-D Secure     not triggered\nCAPTCHA / bot wall  none\nHuman clicks        0 at checkout\nStatus              PAID — \"Zakup opłacony\"\nChannel             Claude in Chrome, owner's profile",
       "mobile": "ALLEGRO.PL · 2026-09-05\nToggle anchors 15 × 3.10\nTotal              46.50 PLN\nSmart! delivery     0.00 PLN\nSaved card · no 3-D Secure\nNo CAPTCHA · 0 human clicks\nPAID — \"Zakup opłacony\"\nClaude in Chrome, own profile",
-      "caption": "Towar wybrał i włożył do koszyka właściciel; dostawę, metodę płatności, wybór karty i kliknięcie „zapłać” wykonał agent. Zamówienie widoczne w historii zakupów właściciela. Identyfikatory zamaskowane."
+      "caption": "Agent wybrał ten towar na podstawie notatek właściciela (notatka z researchu z poprzedniego dnia) i sam wykonał dostawę, metodę płatności, wybór karty i kliknięcie „zapłać”. Jedynym działaniem właściciela było jedno kliknięcie „dodaj do koszyka” — krok zatwierdzenia, który mandat może wyłączyć. Zamówienie widoczne w historii zakupów właściciela. Identyfikatory zamaskowane."
     }
   },
   "control": {
@@ -64,15 +64,15 @@
   "flow": {
     "eyebrow": "Dowody zakupu, nie opinie klientów",
     "title": "Co naprawdę wydarzyło się 2026-09-05",
-    "lead": "Właściciel sam włożył jedną pozycję do koszyka Allegro i postawił jeden warunek: „zapłać beze mnie, albo projekt się nie udał”. Agent — rozszerzenie Claude in Chrome w jego zwykłym, zalogowanym profilu Chrome — dokończył finalizację zamówienia i płatność bez żadnego udziału człowieka.",
+    "lead": "Zadanie: kotwy pod telewizor na ścianie z płyty g-k. 2026-09-04 agent przeczytał notatki właściciela, przeszukał Allegro i wybrał ofertę. Właściciel zatwierdził jednym kliknięciem („dodaj do koszyka”) i postawił jeden warunek: „zapłać beze mnie, albo projekt się nie udał”. 2026-09-05 agent — rozszerzenie Claude in Chrome w jego zwykłym, zalogowanym profilu Chrome — dokończył finalizację zamówienia i płatność bez żadnego udziału człowieka.",
     "steps": [
       {
-        "k": "czyta notatki",
-        "v": "Notatka projektowa „duże obciążenie na płycie g-k”: werdykt inżynierski = kotwy uchylne, 4 punkty mocowania, podwójny zapas bezpieczeństwa; plastikowe kołki odrzucone. Właściciel włożył już wybrany towar do koszyka; praca agenta zaczęła się od koszyka."
+        "k": "czyta notatki, wybiera towar",
+        "v": "Notatka projektowa „duże obciążenie na płycie g-k”: werdykt inżynierski = kotwy uchylne, 4 punkty mocowania, podwójny zapas bezpieczeństwa; plastikowe kołki odrzucone. Agent porównał 53 oferty na Allegro i wybrał ofertę Smart! w odpowiedniej cenie (2026-09-04)."
       },
       {
-        "k": "otwiera koszyk",
-        "v": "Jedna zaznaczona pozycja: 15 × kotwy uchylne, oferta Smart!. Trzy niepowiązane, niezaznaczone pozycje pozostawione bez zmian."
+        "k": "koszyk zatwierdzony",
+        "v": "Cały udział właściciela: jedno kliknięcie „dodaj do koszyka” przy pozycji wybranej przez agenta. Trzy niepowiązane, niezaznaczone pozycje pozostawione bez zmian. Przy HUMAN_CONFIRM=0 w mandacie ten krok znika."
       },
       {
         "k": "finalizacja",
@@ -102,7 +102,7 @@
     "caveatsTitle": "Uczciwe zastrzeżenia",
     "caveats": [
       "Tego zakupu nie prowadziło CLI runtime'u asa; sesja agenta sterowała rozszerzeniem krok po kroku. Realna płatność end-to-end z CLI to następny kamień milowy.",
-      "Czas do zapłaty nie był mierzony; zarejestrowano tylko fakt zakończenia.",
+      "W tym przebiegu właściciel zatwierdził koszyk jednym kliknięciem; przy HUMAN_CONFIRM=0 mandat upoważnia do zakupu bez tego kroku, a prośba jest ostatnią rzeczą, którą użytkownik wpisuje.",
       "Jeden zakup, jedno konto, jedna karta: n = 1 co do częstości 3-D Secure. Kanał Allegro Pay nieprzetestowany."
     ],
     "cta": "Zobacz, jak to odtworzyć"
@@ -124,7 +124,7 @@
       },
       {
         "t": "Naprawdę płaci — a Ty naprawdę zachowujesz kontrolę.",
-        "p": "Agenci w stylu Operatora mają na sztywno wpisane „potwierdź przed zakupem”. Ten płaci autonomicznie w ramach mandatu, który podpisałeś, i zatrzymuje się na wszystkim innym: weryfikacji bankowej, CAPTCHA lub blokadzie antybotowej, ponownym logowaniu, koszyku niezgodnym z zatwierdzonym planem. Przebieg zatrzymuje się i informuje Cię na czacie; na stronie 3-D Secure banku runtime czeka na Ciebie do 5 minut, po czym zatrzymuje się bez ponawiania. Żadnego naszego serwera, żadnej telemetrii: Twoje notatki i treść stron trafiają wyłącznie do dostawcy LLM, którego już używasz.",
+        "p": "Agenci w stylu Operatora mają na sztywno wpisane „potwierdź przed zakupem”. Ten sam wybiera towar, wypełnia koszyk i płaci autonomicznie w ramach mandatu, który podpisałeś — zatwierdzenie koszyka to jedno słowo albo nic, jeśli tak stanowi mandat — i zatrzymuje się na wszystkim innym: weryfikacji bankowej, CAPTCHA lub blokadzie antybotowej, ponownym logowaniu, koszyku niezgodnym z zatwierdzonym planem. Przebieg zatrzymuje się i informuje Cię na czacie; na stronie 3-D Secure banku runtime czeka na Ciebie do 5 minut, po czym zatrzymuje się bez ponawiania. Żadnego naszego serwera, żadnej telemetrii: Twoje notatki i treść stron trafiają wyłącznie do dostawcy LLM, którego już używasz.",
         "artifact": "MANDATE_REVOKED present → STOP (exit 2)\n{\"event\":\"mandate_checked\",\"ok\":true,\"amount_pln\":46.5,\"remaining_pln\":\"[REDACTED]\"}"
       }
     ],
@@ -151,7 +151,7 @@
       {
         "request": "Weź kotwy do ściany pod telewizor.",
         "found": "notatka „duże obciążenie na płycie g-k”: kotwy uchylne, 4 punkty, podwójny zapas bezpieczeństwa, plastikowe kołki odrzucone",
-        "bought": "15 kotew uchylnych, 46,50 PLN, dostawa 0 PLN — realny przebieg: właściciel włożył towar do koszyka; agent wybrał dostawę i sposób płatności, po czym zapłacił",
+        "bought": "15 kotew uchylnych, 46,50 PLN, dostawa 0 PLN — realny przebieg: agent wybrał ofertę na podstawie notatek i Allegro, właściciel zatwierdził koszyk jednym kliknięciem, agent wybrał dostawę i sposób płatności, po czym zapłacił",
         "notAsked": "„Płyta g-k czy beton? Jaka średnica? Ile sztuk?”",
         "status": "kupione 2026-09-05"
       },
@@ -218,8 +218,8 @@
         "d": "Wyniki filtrowane mandatem, uszeregowane z użyciem Twojej historii i Twojej listy „nie kupuj”."
       },
       {
-        "t": "Planuje koszyk",
-        "d": "Jeden sprzedawca powyżej progu darmowej dostawy, najwyżej kilka uzupełnień, które już kupowałeś, jedna wiadomość z propozycją."
+        "t": "Planuje koszyk i sam go wypełnia",
+        "d": "Jeden sprzedawca powyżej progu darmowej dostawy, najwyżej kilka uzupełnień, które już kupowałeś. Albo jedna wiadomość z propozycją, którą zatwierdzasz jednym słowem — albo żadnego pytania, jeśli tak stanowi Twój mandat."
       },
       {
         "t": "Sprawdza koszyk",
@@ -234,7 +234,7 @@
         "d": "Zamaskowany JSONL tylko do dopisywania; zakup trafia do Twojej historii, więc następny brief już o nim wie."
       }
     ],
-    "human": "Człowiek tylko przy: weryfikacji bankowej, CAPTCHA lub stronie blokady, odchyleniu od mandatu — oraz przy pierwszych zakupach, jeśli zostawisz HUMAN_CONFIRM=1."
+    "human": "Człowiek tylko przy: weryfikacji bankowej, CAPTCHA lub stronie blokady, odchyleniu od mandatu — oraz przy zatwierdzaniu koszyka, jeśli zostawisz HUMAN_CONFIRM=1. Przy HUMAN_CONFIRM=0 prośba jest ostatnią rzeczą, którą wpisujesz."
   },
   "guard": {
     "eyebrow": "Kontrola zostaje u Ciebie",
@@ -455,7 +455,7 @@
     "items": [
       {
         "q": "Czy naprawdę może wydawać pieniądze beze mnie?",
-        "a": "Tak — w ramach PURCHASE_MANDATE.md, który podpisujesz raz (limity na pozycję, na zamówienie i łączny, ważność, kategorie, serwisy, pułap jednorazowych zgód). 2026-09-05 zapłacił 46,50 PLN na Allegro bez ani jednego kliknięcia człowieka przy finalizacji. Poza mandatem lub przy dowolnej weryfikacji bankowej przebieg się zatrzymuje i informuje Cię na czacie."
+        "a": "Tak — w ramach PURCHASE_MANDATE.md, który podpisujesz raz (limity na pozycję, na zamówienie i łączny, ważność, kategorie, serwisy, pułap jednorazowych zgód). Agent wybiera towar na podstawie Twoich notatek i sklepu, wypełnia koszyk i płaci; zatwierdzenie koszyka to jedno słowo od Ciebie albo żadne, jeśli mandat na to pozwala. 2026-09-05 zapłacił 46,50 PLN na Allegro bez ani jednego kliknięcia człowieka przy finalizacji. Poza mandatem lub przy dowolnej weryfikacji bankowej przebieg się zatrzymuje i informuje Cię na czacie."
       },
       {
         "q": "Gdzie są dane mojej karty?",

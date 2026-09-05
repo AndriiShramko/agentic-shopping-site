@@ -25,7 +25,7 @@
   "hero": {
     "eyebrow": "Código abierto · Apache-2.0 · Se ejecuta en tu propio navegador",
     "h1": "Un agente IA pagó productos reales en Allegro. Sin nadie en el checkout.",
-    "sub": "Capa de código abierto para el agente IA que ya usas. Primero lee tus propias notas y después pide y paga en Allegro.pl desde tu Chrome con sesión iniciada, bajo un mandato de gasto que firmas una sola vez.",
+    "sub": "Capa de código abierto para el agente IA que ya usas. Primero lee tus propias notas, elige él mismo el artículo adecuado, lo pone en el carrito y paga en Allegro.pl desde tu Chrome con sesión iniciada, bajo un mandato de gasto que firmas una sola vez. Aprobación del carrito: una palabra tuya, o ninguna si tu mandato así lo dice.",
     "ctaPrimary": "Instalar con tu agente",
     "ctaSecondary": "Leer el código en GitHub",
     "updated": "Actualizado {date} · alfa v{version} · {testCount} pruebas automatizadas · 1 pago real",
@@ -33,7 +33,7 @@
       "title": "Primer pago autónomo",
       "desktop": "ALLEGRO.PL                                2026-09-05\n----------------------------------------------------\nDrywall toggle anchors, 15 × 3.10 PLN      46.50 PLN\nDelivery · Allegro Smart!                   0.00 PLN\n                           (cheapest paid: 10.95 PLN)\n----------------------------------------------------\nPayment             card already saved in the account\nBank 3-D Secure     not triggered\nCAPTCHA / bot wall  none\nHuman clicks        0 at checkout\nStatus              PAID — \"Zakup opłacony\"\nChannel             Claude in Chrome, owner's profile",
       "mobile": "ALLEGRO.PL · 2026-09-05\nToggle anchors 15 × 3.10\nTotal              46.50 PLN\nSmart! delivery     0.00 PLN\nSaved card · no 3-D Secure\nNo CAPTCHA · 0 human clicks\nPAID — \"Zakup opłacony\"\nClaude in Chrome, own profile",
-      "caption": "El artículo lo eligió y lo puso en el carrito el propietario; la entrega, el método de pago, la selección de tarjeta y el clic de pago los hizo el agente. El pedido aparece en el historial de compras del propietario. Identificadores eliminados."
+      "caption": "El agente eligió este artículo a partir de las notas del propietario (la nota de investigación del día anterior) y completó la entrega, el método de pago, la selección de tarjeta y el clic de pago. La única acción del propietario fue un toque en «añadir al carrito»: el paso de aprobación, que el mandato puede desactivar. El pedido aparece en el historial de compras del propietario. Identificadores eliminados."
     }
   },
   "control": {
@@ -64,15 +64,15 @@
   "flow": {
     "eyebrow": "Recibos, no testimonios",
     "title": "Qué ocurrió realmente el 2026-09-05",
-    "lead": "El propietario puso él mismo un artículo en el carrito de Allegro y fijó una única condición: «paga sin mí o el proyecto ha fracasado». El agente —la extensión Claude in Chrome dentro de su perfil de Chrome habitual, con sesión iniciada— completó el checkout y el pago sin ninguna intervención humana.",
+    "lead": "La petición: anclajes para un televisor en una pared de placa de yeso. El 2026-09-04 el agente leyó las notas del propietario, investigó en Allegro y eligió la oferta. El propietario aprobó con un solo toque («añadir al carrito») y una única condición: «paga sin mí o el proyecto ha fracasado». El 2026-09-05 el agente —la extensión Claude in Chrome dentro de su perfil de Chrome habitual, con sesión iniciada— completó el checkout y el pago sin ninguna intervención humana.",
     "steps": [
       {
-        "k": "leer notas",
-        "v": "Nota de proyecto «carga pesada sobre placa de yeso»: veredicto de ingeniería = anclajes basculantes, 4 puntos de fijación, doble margen de seguridad; tacos de plástico descartados. El propietario ya había puesto en el carrito el artículo elegido; el trabajo del agente empezó en el carrito."
+        "k": "leer notas, elegir el artículo",
+        "v": "Nota de proyecto «carga pesada sobre placa de yeso»: veredicto de ingeniería = anclajes basculantes, 4 puntos de fijación, doble margen de seguridad; tacos de plástico descartados. El agente comparó 53 ofertas en Allegro y eligió una oferta Smart! al precio adecuado (2026-09-04)."
       },
       {
-        "k": "abrir carrito",
-        "v": "Una línea seleccionada: 15 × anclajes basculantes, una oferta Smart!. Tres líneas ajenas, sin seleccionar, quedaron intactas."
+        "k": "carrito aprobado",
+        "v": "Toda la participación del propietario: un toque en «añadir al carrito» para la línea elegida por el agente. Tres líneas ajenas, sin seleccionar, quedaron intactas. Con HUMAN_CONFIRM=0 en el mandato este paso desaparece."
       },
       {
         "k": "checkout",
@@ -102,7 +102,7 @@
     "caveatsTitle": "Salvedades honestas",
     "caveats": [
       "La CLI del runtime asa no condujo esta compra; fue la sesión del agente la que manejó la extensión paso a paso. Un pago real de extremo a extremo desde la CLI es el siguiente hito.",
-      "No se midió el tiempo hasta el pago; solo se registró la finalización.",
+      "En esta ejecución el propietario aprobó el carrito con un toque; con HUMAN_CONFIRM=0 el mandato autoriza a comprar sin ese paso, y la petición es lo último que teclea el usuario.",
       "Una compra, una cuenta, una tarjeta: n = 1 en cuanto a la frecuencia de 3-D Secure. La vía Allegro Pay no está probada."
     ],
     "cta": "Ver cómo reproducirlo"
@@ -124,7 +124,7 @@
       },
       {
         "t": "Paga de verdad, y tú sigues al mando de verdad.",
-        "p": "Los agentes tipo Operator traen de serie el «confirmar antes de comprar». Este paga de forma autónoma dentro de un mandato que has firmado y se detiene ante cualquier otra cosa: un desafío del banco, un CAPTCHA o muro antibots, un nuevo inicio de sesión, un carrito distinto del plan aprobado. La ejecución se detiene y te lo dice en el chat; en una página 3-D Secure del banco el runtime te espera hasta 5 minutos y luego se detiene sin reintentar. Sin servidores nuestros, sin telemetría: tus notas y el contenido de las páginas solo van al proveedor de LLM que ya usas.",
+        "p": "Los agentes tipo Operator traen de serie el «confirmar antes de comprar». Este elige el artículo, llena el carrito y paga de forma autónoma dentro de un mandato que has firmado —la aprobación del carrito es una palabra, o nada si el mandato así lo dice— y se detiene ante cualquier otra cosa: un desafío del banco, un CAPTCHA o muro antibots, un nuevo inicio de sesión, un carrito distinto del plan aprobado. La ejecución se detiene y te lo dice en el chat; en una página 3-D Secure del banco el runtime te espera hasta 5 minutos y luego se detiene sin reintentar. Sin servidores nuestros, sin telemetría: tus notas y el contenido de las páginas solo van al proveedor de LLM que ya usas.",
         "artifact": "MANDATE_REVOKED present → STOP (exit 2)\n{\"event\":\"mandate_checked\",\"ok\":true,\"amount_pln\":46.5,\"remaining_pln\":\"[REDACTED]\"}"
       }
     ],
@@ -151,7 +151,7 @@
       {
         "request": "Consigue los anclajes para la pared del televisor.",
         "found": "nota «carga pesada sobre placa de yeso»: anclajes basculantes, 4 puntos, doble margen de seguridad, tacos de plástico descartados",
-        "bought": "15 anclajes basculantes, 46.50 PLN, envío 0 PLN — la ejecución real: el propietario puso el artículo en el carrito; el agente eligió entrega y pago, y pagó",
+        "bought": "15 anclajes basculantes, 46.50 PLN, envío 0 PLN — la ejecución real: el agente eligió la oferta a partir de las notas y de Allegro, el propietario aprobó el carrito con un toque, el agente eligió entrega y pago, y pagó",
         "notAsked": "«¿Placa de yeso u hormigón? ¿Qué diámetro? ¿Cuántos?»",
         "status": "comprado el 2026-09-05"
       },
@@ -218,8 +218,8 @@
         "d": "Resultados filtrados por el mandato y ordenados con tu historial y tu lista de no comprar."
       },
       {
-        "t": "Planifica una cesta",
-        "d": "Un vendedor por encima del umbral de envío gratis, como mucho unos pocos complementos que ya has comprado antes, un único mensaje de propuesta."
+        "t": "Planifica la cesta y llena el carrito",
+        "d": "Un vendedor por encima del umbral de envío gratis, como mucho unos pocos complementos que ya has comprado antes. O bien un único mensaje de propuesta que apruebas con una palabra, o bien ninguna pregunta, si tu mandato así lo dice."
       },
       {
         "t": "Comprueba el carrito",
@@ -234,7 +234,7 @@
         "d": "JSONL de solo anexado y con datos sensibles eliminados; la compra se añade a tu historial para que el siguiente resumen ya la conozca."
       }
     ],
-    "human": "Humano solo en: un desafío del banco, un CAPTCHA o página de bloqueo, una desviación del mandato, y en las primeras compras si mantienes HUMAN_CONFIRM=1."
+    "human": "Humano solo en: un desafío del banco, un CAPTCHA o página de bloqueo, una desviación del mandato, y en la aprobación del carrito si mantienes HUMAN_CONFIRM=1. Con HUMAN_CONFIRM=0 la petición es lo último que tecleas."
   },
   "guard": {
     "eyebrow": "Tú sigues al mando",
@@ -455,7 +455,7 @@
     "items": [
       {
         "q": "¿De verdad puede gastar dinero sin mí?",
-        "a": "Sí, dentro de un PURCHASE_MANDATE.md que firmas una sola vez (límites por artículo, por pedido y acumulado, vigencia, categorías, sitios, un techo para aprobaciones puntuales). El 2026-09-05 pagó 46.50 PLN en Allegro con cero clics humanos en el checkout. Fuera del mandato, o ante cualquier desafío del banco, la ejecución se detiene y te lo dice en el chat."
+        "a": "Sí, dentro de un PURCHASE_MANDATE.md que firmas una sola vez (límites por artículo, por pedido y acumulado, vigencia, categorías, sitios, un techo para aprobaciones puntuales). El agente elige el artículo a partir de tus notas y de la tienda, llena el carrito y paga; la aprobación del carrito es una palabra tuya, o ninguna si el mandato lo permite. El 2026-09-05 pagó 46.50 PLN en Allegro con cero clics humanos en el checkout. Fuera del mandato, o ante cualquier desafío del banco, la ejecución se detiene y te lo dice en el chat."
       },
       {
         "q": "¿Dónde están los datos de mi tarjeta?",
