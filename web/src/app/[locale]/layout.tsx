@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import LangSync from "@/components/LangSync";
 import ConsentBanner from "@/components/ConsentBanner";
+import ClickTracker from "@/components/ClickTracker";
 import { SITE } from "@/config/site";
 
 
@@ -49,6 +50,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   return (
     <NextIntlClientProvider>
       <LangSync locale={locale as Locale} />
+      <ClickTracker />
       {children}
       <ConsentBanner />
     </NextIntlClientProvider>

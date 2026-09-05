@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { AUTHOR, REPO, TEST_COUNT, UPDATED, VERSION } from "@/config/site";
+import type { Locale } from "@/i18n/routing";
 import { btnPrimary, btnSecondary, Card, Eyebrow, H2, Lead, Section } from "@/components/kit";
 import LangSwitcher from "@/components/LangSwitcher";
 import CopyBlock from "@/components/CopyBlock";
@@ -76,13 +77,13 @@ function Page({ locale }: { locale: string }) {
               {t("nav.contact")}
             </TrackLink>
             <div className="hidden lg:block">
-              <LangSwitcher compact />
+              <LangSwitcher locale={locale as Locale} compact />
             </div>
           </nav>
         </div>
         <div className="border-t border-line/60 lg:hidden">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 overflow-x-auto px-5 py-2 sm:px-8">
-            <LangSwitcher compact />
+            <LangSwitcher locale={locale as Locale} compact />
             <ul className="hidden gap-4 text-xs text-muted sm:flex">
               {anchors.map(([href, label]) => (
                 <li key={href}>
@@ -524,7 +525,7 @@ function Page({ locale }: { locale: string }) {
             <p className="text-sm text-muted">
               © 2026 {AUTHOR.name} · {t("footer.license")} · {t("footer.updated", { date: UPDATED })}
             </p>
-            <LangSwitcher />
+            <LangSwitcher locale={locale as Locale} />
           </div>
           <p className="mt-4 text-sm text-muted">
             <TrackLink href={REPO} event="github_click" className="underline hover:text-ink">

@@ -1,280 +1,582 @@
 {
   "meta": {
-    "title": "Agentic Shopping Autopilot — AI agent that pays on Allegro",
-    "description": "Open-source AI agent that reads your notes, then finds, orders and pays on Allegro.pl under a signed spending cap. First real payment 2026-09-05.",
-    "keywords": "agentic commerce, AI shopping agent, autonomous checkout, purchase mandate, Claude Code, Allegro, PSD2, open source",
-    "ogTitle": "An AI agent paid for real goods on Allegro — no human at checkout",
-    "ogDescription": "Agentic Shopping Autopilot: open-source layer for Claude Code and other agents. Reads your knowledge store first, pays with your saved card in your own Chrome, stops on 3-D Secure and CAPTCHA. Receipt, flow and risks published. Apache-2.0."
+    "title": "Agentic Shopping Autopilot — agente IA que paga en Allegro",
+    "description": "Agente IA de código abierto que lee tus notas y luego busca, pide y paga en Allegro.pl bajo un tope de gasto firmado. Primer pago real: 2026-09-05.",
+    "keywords": "comercio agéntico, agente IA de compras, checkout autónomo, mandato de compra, Claude Code, Allegro, PSD2, código abierto",
+    "ogTitle": "Un agente IA pagó productos reales en Allegro, sin nadie en el checkout",
+    "ogDescription": "Agentic Shopping Autopilot: capa de código abierto para Claude Code y otros agentes. Lee primero tu base de conocimiento, paga con tu tarjeta guardada en tu propio Chrome y se detiene ante 3-D Secure y CAPTCHA. Recibo, flujo y riesgos publicados. Apache-2.0."
   },
   "consent": {
-    "title": "Analytics cookies?",
-    "text": "They help me see which sections people read. Nothing is loaded until you choose.",
-    "accept": "Accept analytics",
-    "decline": "Decline"
+    "title": "¿Cookies de analítica?",
+    "text": "Me ayudan a ver qué secciones lee la gente. No se carga nada hasta que decidas.",
+    "accept": "Aceptar analítica",
+    "decline": "Rechazar"
   },
-  "sticky": { "note": "Spending cap you sign", "cta": "Install with your agent" },
-  "nav": { "skip": "Skip to content", "github": "GitHub", "install": "Run it", "contact": "Talk to the author" },
+  "sticky": {
+    "note": "Tope de gasto que firmas tú",
+    "cta": "Instalar con tu agente"
+  },
+  "nav": {
+    "skip": "Saltar al contenido",
+    "github": "GitHub",
+    "install": "Ponlo en marcha",
+    "contact": "Hablar con el autor"
+  },
   "hero": {
-    "eyebrow": "Open source · Apache-2.0 · Runs in your own browser",
-    "h1": "An AI agent paid for real goods on Allegro. No human at checkout.",
-    "sub": "Open-source layer for the AI agent you already run. It reads your own notes first, then orders and pays on Allegro.pl in your logged-in Chrome — under a spending mandate you sign once.",
-    "ctaPrimary": "Install with your agent",
-    "ctaSecondary": "Read the code on GitHub",
-    "updated": "Updated {date} · alpha v{version} · {testCount} automated tests · 1 real payment",
+    "eyebrow": "Código abierto · Apache-2.0 · Se ejecuta en tu propio navegador",
+    "h1": "Un agente IA pagó productos reales en Allegro. Sin nadie en el checkout.",
+    "sub": "Capa de código abierto para el agente IA que ya usas. Primero lee tus propias notas y después pide y paga en Allegro.pl desde tu Chrome con sesión iniciada, bajo un mandato de gasto que firmas una sola vez.",
+    "ctaPrimary": "Instalar con tu agente",
+    "ctaSecondary": "Leer el código en GitHub",
+    "updated": "Actualizado {date} · alfa v{version} · {testCount} pruebas automatizadas · 1 pago real",
     "receipt": {
-      "title": "First autonomous payment",
-      "desktop": "ALLEGRO.PL                                2026-09-05\n----------------------------------------------------\nDrywall toggle anchors, 15 × 3.10 PLN      46.50 PLN\nDelivery · Allegro Smart!                   0.00 PLN\n                           (cheapest paid: 10.95 PLN)\n----------------------------------------------------\nPayment           card already saved in the account\nBank 3-D Secure   not triggered\nCAPTCHA / bot wall none\nHuman clicks      0 at checkout\nStatus            PAID — \"Zakup opłacony\"\nChannel           Claude in Chrome, owner's own profile",
+      "title": "Primer pago autónomo",
+      "desktop": "ALLEGRO.PL                                2026-09-05\n----------------------------------------------------\nDrywall toggle anchors, 15 × 3.10 PLN      46.50 PLN\nDelivery · Allegro Smart!                   0.00 PLN\n                           (cheapest paid: 10.95 PLN)\n----------------------------------------------------\nPayment             card already saved in the account\nBank 3-D Secure     not triggered\nCAPTCHA / bot wall  none\nHuman clicks        0 at checkout\nStatus              PAID — \"Zakup opłacony\"\nChannel             Claude in Chrome, owner's profile",
       "mobile": "ALLEGRO.PL · 2026-09-05\nToggle anchors 15 × 3.10\nTotal              46.50 PLN\nSmart! delivery     0.00 PLN\nSaved card · no 3-D Secure\nNo CAPTCHA · 0 human clicks\nPAID — \"Zakup opłacony\"\nClaude in Chrome, own profile",
-      "caption": "Item chosen and placed in the cart by the owner; delivery, payment method, card selection and the pay click by the agent. Order visible in the owner's purchase history. Identifiers redacted."
+      "caption": "El artículo lo eligió y lo puso en el carrito el propietario; la entrega, el método de pago, la selección de tarjeta y el clic de pago los hizo el agente. El pedido aparece en el historial de compras del propietario. Identificadores eliminados."
     }
   },
   "control": {
-    "title": "What keeps you in control",
+    "title": "Qué te mantiene al mando",
     "items": [
-      { "t": "A spending cap you sign", "d": "Per item, per order, in total — checked before every pay click." },
-      { "t": "A kill switch that is a file", "d": "Create MANDATE_REVOKED and the next action is refused." },
-      { "t": "Your browser, your card", "d": "Selects a card already saved in your account. Never types card data." },
-      { "t": "Stops on any challenge", "d": "3-D Secure, CAPTCHA, re-login, a cart that differs from the plan." },
-      { "t": "Append-only audit log", "d": "Every action logged locally, redacted before it is written." }
+      {
+        "t": "Un tope de gasto que firmas tú",
+        "d": "Por artículo, por pedido y en total; se comprueba antes de cada clic de pago."
+      },
+      {
+        "t": "Un interruptor de parada que es un archivo",
+        "d": "Crea MANDATE_REVOKED y la siguiente acción se rechaza."
+      },
+      {
+        "t": "Tu navegador, tu tarjeta",
+        "d": "Selecciona una tarjeta ya guardada en tu cuenta. Nunca teclea datos de tarjeta."
+      },
+      {
+        "t": "Se detiene ante cualquier desafío",
+        "d": "3-D Secure, CAPTCHA, nuevo inicio de sesión, un carrito distinto del plan."
+      },
+      {
+        "t": "Registro de auditoría de solo anexado",
+        "d": "Cada acción queda registrada en local, con datos sensibles eliminados antes de escribirla."
+      }
     ]
   },
   "flow": {
-    "eyebrow": "Receipts, not testimonials",
-    "title": "What actually happened on 2026-09-05",
-    "lead": "The owner put one item in the Allegro cart himself and set a single condition: \"pay without me, or the project has failed.\" The agent — the Claude in Chrome extension inside his normal, logged-in Chrome profile — completed checkout and payment with no human input.",
+    "eyebrow": "Recibos, no testimonios",
+    "title": "Qué ocurrió realmente el 2026-09-05",
+    "lead": "El propietario puso él mismo un artículo en el carrito de Allegro y fijó una única condición: «paga sin mí o el proyecto ha fracasado». El agente —la extensión Claude in Chrome dentro de su perfil de Chrome habitual, con sesión iniciada— completó el checkout y el pago sin ninguna intervención humana.",
     "steps": [
-      { "k": "read notes", "v": "Project note \"heavy load on drywall\": engineering verdict = toggle anchors, 4 mounting points, double safety margin; plastic plugs rejected. The owner had already carted the chosen item; the agent's job started at the cart." },
-      { "k": "open cart", "v": "One selected line: 15 × toggle anchors, a Smart! offer. Three unrelated, unselected lines left untouched." },
-      { "k": "checkout", "v": "Delivery address and parcel locker pre-filled by the account. Default payment on the page was \"Przelew\" (bank redirect — unusable for an agent). The agent switched to \"Karta płatnicza\"." },
-      { "k": "select card", "v": "Saved-cards dialog. The agent selected a card already on file. No card number, no CVV typed — ever." },
-      { "k": "pay", "v": "Clicked \"Kupuję i płacę\"." },
-      { "k": "confirm", "v": "\"Zakup opłacony\". Order present in \"Moje zakupy\". Delivery to a parcel locker, 0 PLN, next business Tuesday." }
+      {
+        "k": "leer notas",
+        "v": "Nota de proyecto «carga pesada sobre placa de yeso»: veredicto de ingeniería = anclajes basculantes, 4 puntos de fijación, doble margen de seguridad; tacos de plástico descartados. El propietario ya había puesto en el carrito el artículo elegido; el trabajo del agente empezó en el carrito."
+      },
+      {
+        "k": "abrir carrito",
+        "v": "Una línea seleccionada: 15 × anclajes basculantes, una oferta Smart!. Tres líneas ajenas, sin seleccionar, quedaron intactas."
+      },
+      {
+        "k": "checkout",
+        "v": "Dirección de entrega y taquilla de paquetería rellenadas por la cuenta. El pago por defecto en la página era \"Przelew\" (redirección bancaria, inutilizable para un agente). El agente cambió a \"Karta płatnicza\"."
+      },
+      {
+        "k": "elegir tarjeta",
+        "v": "Diálogo de tarjetas guardadas. El agente seleccionó una tarjeta ya registrada. No se tecleó número de tarjeta ni CVV: nunca."
+      },
+      {
+        "k": "pagar",
+        "v": "Clic en \"Kupuję i płacę\"."
+      },
+      {
+        "k": "confirmar",
+        "v": "\"Zakup opłacony\". Pedido presente en \"Moje zakupy\". Entrega en taquilla de paquetería, 0 PLN, el siguiente martes laborable."
+      }
     ],
-    "notTitle": "What did NOT happen",
+    "notTitle": "Qué NO ocurrió",
     "not": [
-      "No 3-D Secure or bank SMS",
-      "No CAPTCHA, no bot wall",
-      "No new card, no BLIK code, no new fintech account",
-      "No prompt telling the model to \"ignore its policy\"",
-      "No refusal from the extension (the day-before assumption that it would refuse was wrong)"
+      "Ni 3-D Secure ni SMS del banco",
+      "Ni CAPTCHA ni muro antibots",
+      "Ni tarjeta nueva, ni código BLIK, ni cuenta fintech nueva",
+      "Ningún prompt que pidiera al modelo «ignorar su política»",
+      "Ninguna negativa de la extensión (la suposición del día anterior de que se negaría era errónea)"
     ],
-    "caveatsTitle": "Honest caveats",
+    "caveatsTitle": "Salvedades honestas",
     "caveats": [
-      "The asa runtime CLI did not drive this purchase; the agent session drove the extension step by step. A CLI end-to-end live payment is the next milestone.",
-      "Time-to-pay was not measured; only completion was recorded.",
-      "One purchase, one account, one card: n = 1 on 3-D Secure frequency. The Allegro Pay rail is untested."
+      "La CLI del runtime asa no condujo esta compra; fue la sesión del agente la que manejó la extensión paso a paso. Un pago real de extremo a extremo desde la CLI es el siguiente hito.",
+      "No se midió el tiempo hasta el pago; solo se registró la finalización.",
+      "Una compra, una cuenta, una tarjeta: n = 1 en cuanto a la frecuencia de 3-D Secure. La vía Allegro Pay no está probada."
     ],
-    "cta": "See how to reproduce it"
+    "cta": "Ver cómo reproducirlo"
   },
   "why": {
-    "eyebrow": "Why this and not another agent",
-    "title": "Three things nobody else's shopping agent does",
-    "lead": "Sound familiar? You ask an assistant to buy something; it browses, compares — then hands you the cart. You buy the same adapter three times because no shop knows your drawer. You answer \"which size?\" for the tenth time although you wrote it down years ago. Manual shopping costs 20–40 clicks and your memory; vendor agents keep the mandate on their side, confirm every step, and mostly do not run in Poland. This project reads your notes before it reads the shop, pays with what you already have, and keeps the mandate with you.",
+    "eyebrow": "Por qué este y no otro agente",
+    "title": "Tres cosas que ningún otro agente de compras hace",
+    "lead": "¿Te suena? Le pides a un asistente que compre algo; navega, compara y al final te entrega el carrito. Compras el mismo adaptador tres veces porque ninguna tienda conoce tu cajón. Contestas «¿de qué medida?» por décima vez aunque lo apuntaste hace años. Comprar a mano cuesta 20–40 clics y tu memoria; los agentes de los proveedores retienen el mandato de su lado, confirman cada paso y en su mayoría no funcionan en Polonia. Este proyecto lee tus notas antes de leer la tienda, paga con lo que ya tienes y deja el mandato en tus manos.",
     "rows": [
       {
-        "t": "It reads your knowledge store first.",
-        "p": "Before touching a search box the agent opens your notes: what you own, sizes and standards you use, what you bought before and from whom, what you have too much of. The owner's vault shows the same tripod adapter bought three times and roughly a thousand surplus screws. The problem is not finding items — it is remembering.",
+        "t": "Lee primero tu base de conocimiento.",
+        "p": "Antes de tocar un cuadro de búsqueda, el agente abre tus notas: qué tienes, qué medidas y normas usas, qué compraste antes y a quién, qué te sobra. La bóveda del propietario muestra el mismo adaptador de trípode comprado tres veces y cerca de mil tornillos de sobra. El problema no es encontrar artículos: es recordar.",
         "artifact": "context:brief → need: \"M5 low nut DIN 439 A2\"\n#3  2026-07  [profile] seller known, used 2× · category: fasteners\n#7  2026-08  [do-not-buy] countersunk screws — surplus ~1000\nfacts 2 · assumptions 1 · open questions 0"
       },
       {
-        "t": "It uses your accounts, your prices, your loyalty.",
-        "p": "Your logged-in Chrome, your saved card, your invoice settings, your Allegro Smart!. The planner groups lines per seller to cross your free-delivery threshold and fills the gap with something you already buy. The 2026-09-05 order shipped for 0 PLN instead of 10.95 PLN.",
+        "t": "Usa tus cuentas, tus precios, tu fidelización.",
+        "p": "Tu Chrome con sesión iniciada, tu tarjeta guardada, tus datos de facturación, tu Allegro Smart!. El planificador agrupa las líneas por vendedor para superar tu umbral de envío gratis y rellena el hueco con algo que ya compras. El pedido del 2026-09-05 se envió por 0 PLN en lugar de 10.95 PLN.",
         "artifact": "basket:plan → seller A · 3 lines · 52.40 PLN · Smart! ✓ · delivery 0.00\ngap filled with a previously bought item\nper_item ✓  per_order ✓  max_items ✓  aggregate ✓"
       },
       {
-        "t": "It actually pays — and you actually stay in charge.",
-        "p": "Operator-style agents hard-wire \"confirm before purchase\". This one pays autonomously within a mandate you signed, and stops on anything else: a bank challenge, a CAPTCHA or bot wall, a re-login, a cart that differs from the approved plan. The run stops and tells you in chat; on a bank 3-D Secure page the runtime waits up to 5 minutes for you, then stops with no retry. No server of ours, no telemetry: your notes and page content go only to the LLM provider you already use.",
+        "t": "Paga de verdad, y tú sigues al mando de verdad.",
+        "p": "Los agentes tipo Operator traen de serie el «confirmar antes de comprar». Este paga de forma autónoma dentro de un mandato que has firmado y se detiene ante cualquier otra cosa: un desafío del banco, un CAPTCHA o muro antibots, un nuevo inicio de sesión, un carrito distinto del plan aprobado. La ejecución se detiene y te lo dice en el chat; en una página 3-D Secure del banco el runtime te espera hasta 5 minutos y luego se detiene sin reintentar. Sin servidores nuestros, sin telemetría: tus notas y el contenido de las páginas solo van al proveedor de LLM que ya usas.",
         "artifact": "MANDATE_REVOKED present → STOP (exit 2)\n{\"event\":\"mandate_checked\",\"ok\":true,\"amount_pln\":46.5,\"remaining_pln\":\"[REDACTED]\"}"
       }
     ],
-    "cta": "Install with your agent"
+    "cta": "Instalar con tu agente"
   },
   "examples": {
-    "eyebrow": "Context-first, in practice",
-    "title": "\"Buy X\" — and it never asks what size",
-    "lead": "One rule in every example: the request is one sentence; every attribute comes from your notes; if a critical attribute is missing, the item is skipped with a one-line note instead of a question. Only the anchors have actually been paid for.",
-    "labels": { "found": "Looked up:", "bought": "Would buy:", "notAsked": "Did not ask:", "status": "Status:" },
+    "eyebrow": "Contexto primero, en la práctica",
+    "title": "«Compra X», y nunca pregunta de qué medida",
+    "lead": "Una regla en todos los ejemplos: la petición es una frase; cada atributo sale de tus notas; si falta un atributo crítico, el artículo se omite con una nota de una línea en lugar de una pregunta. Solo los anclajes se han pagado de verdad.",
+    "labels": {
+      "found": "Consultado:",
+      "bought": "Compraría:",
+      "notAsked": "No preguntó:",
+      "status": "Estado:"
+    },
     "items": [
-      { "request": "Order a spare set of bed sheets.", "found": "bed 180×200 with lift-up storage, pocket-spring mattress ~22–25 cm, second bed 90×200, default colour on record", "bought": "fitted sheet 180×200 with ≥25 cm depth, matching duvet and pillow set, one Smart! seller over the free-delivery threshold", "notAsked": "\"What size is your bed? How thick is the mattress? Which colour?\"", "status": "vault-grounded, planner-tested, not bought" },
-      { "request": "Get the anchors for the TV wall.", "found": "note \"heavy load on drywall\": toggle anchors, 4 points, double safety margin, plastic plugs rejected", "bought": "15 toggle anchors, 46.50 PLN, delivery 0 PLN — the real run: the owner carted the item; the agent chose delivery and payment and paid", "notAsked": "\"Drywall or concrete? Which diameter? How many?\"", "status": "bought 2026-09-05" },
-      { "request": "Buy the dried fruit.", "found": "cherries, pitted prunes, black currants, raisins; assumptions written down: ~500 g packs, sultanas, dried not freeze-dried", "bought": "plan: one Smart! order at the seller that has three of four; currants separately; upgrading cherries 250 g → 500 g beat paying for delivery", "notAsked": "\"Which brand? Pack size? Pitted or not?\"", "status": "planned — real search log 2026-09-04, not bought" },
-      { "request": "Reorder filament.", "found": "two printers (X1C with AMS, H2C dual-nozzle), Ø1.75 mm, \"almost always black\", norms per material, previous seller, do-not-buy line: ~12 kg PET-G surplus", "bought": "2 × PA12 black 1 kg from the previous seller; PET-G refused", "notAsked": "\"Diameter? Colour? Brand? Do you still have PET-G?\"", "status": "vault-grounded, planner-tested, not bought" },
-      { "request": "Top up the workshop consumables.", "found": "norms table: PVP glue stick 40–43 g ×2, indicator silica gel 200 g, IPA 99.9 % 500 ml, black 3:1 glue-lined heat-shrink", "bought": "all four at one Smart! seller, gap-filled with an item bought before", "notAsked": "\"Which glue? What purity? Which colour?\"", "status": "vault-grounded, planner-tested, not bought" },
-      { "request": "Spare props and connectors for the drone.", "found": "FPV build list: 9×5×3 tri-blade props, 6S packs, \"XT60 only genuine AMASS\"", "bought": "2 prop sets in the recorded size + one pair of genuine XT60", "notAsked": "\"Which prop size? Genuine or clone?\"", "status": "vault-grounded, planner-tested, not bought" },
-      { "request": "Order the O-rings for the enclosure.", "found": "bill of materials of a weather-proof camera case: Ø62 O-rings in three sections and materials, silicone cord by the metre, M20×1.5 IP68 glands ×10, previous sellers", "bought": "exact sections and pack sizes at the sellers on record", "notAsked": "\"Inner diameter? Cross-section? Material?\"", "status": "vault-grounded, planner-tested, not bought" },
-      { "request": "Dowels for the tool wall.", "found": "wall type — not in the notes", "bought": "nothing. Reply: \"didn't take: dowels — need wall type (drywall / brick / concrete)\"", "notAsked": "That is the whole failure mode: a skipped line, not a guess and not a questionnaire.", "status": "the refusal path" }
+      {
+        "request": "Pide un juego de sábanas de repuesto.",
+        "found": "cama 180×200 con almacenaje elevable, colchón de muelles ensacados de ~22–25 cm, segunda cama 90×200, color por defecto anotado",
+        "bought": "sábana bajera 180×200 con ≥25 cm de altura, funda nórdica y fundas de almohada a juego, un vendedor Smart! por encima del umbral de envío gratis",
+        "notAsked": "«¿De qué medida es tu cama? ¿Qué grosor tiene el colchón? ¿Qué color?»",
+        "status": "basado en la bóveda, probado en el planificador, no comprado"
+      },
+      {
+        "request": "Consigue los anclajes para la pared del televisor.",
+        "found": "nota «carga pesada sobre placa de yeso»: anclajes basculantes, 4 puntos, doble margen de seguridad, tacos de plástico descartados",
+        "bought": "15 anclajes basculantes, 46.50 PLN, envío 0 PLN — la ejecución real: el propietario puso el artículo en el carrito; el agente eligió entrega y pago, y pagó",
+        "notAsked": "«¿Placa de yeso u hormigón? ¿Qué diámetro? ¿Cuántos?»",
+        "status": "comprado el 2026-09-05"
+      },
+      {
+        "request": "Compra la fruta deshidratada.",
+        "found": "cerezas, ciruelas pasas sin hueso, grosellas negras, pasas; supuestos anotados: paquetes de ~500 g, pasas sultanas, deshidratadas y no liofilizadas",
+        "bought": "plan: un pedido Smart! al vendedor que tiene tres de cuatro; las grosellas aparte; pasar las cerezas de 250 g → 500 g salía mejor que pagar el envío",
+        "notAsked": "«¿Qué marca? ¿Qué tamaño de paquete? ¿Con hueso o sin hueso?»",
+        "status": "planificado — registro de búsqueda real del 2026-09-04, no comprado"
+      },
+      {
+        "request": "Vuelve a pedir filamento.",
+        "found": "dos impresoras (X1C con AMS, H2C de doble boquilla), Ø1.75 mm, «casi siempre negro», normas por material, vendedor anterior, línea de no comprar: ~12 kg de PET-G de sobra",
+        "bought": "2 × PA12 negro de 1 kg al vendedor anterior; PET-G rechazado",
+        "notAsked": "«¿Diámetro? ¿Color? ¿Marca? ¿Te queda PET-G?»",
+        "status": "basado en la bóveda, probado en el planificador, no comprado"
+      },
+      {
+        "request": "Repón los consumibles del taller.",
+        "found": "tabla de normas: barra de pegamento PVP 40–43 g ×2, gel de sílice con indicador 200 g, IPA 99.9 % 500 ml, termorretráctil negro 3:1 con adhesivo",
+        "bought": "los cuatro en un vendedor Smart!, hueco rellenado con un artículo comprado antes",
+        "notAsked": "«¿Qué pegamento? ¿Qué pureza? ¿Qué color?»",
+        "status": "basado en la bóveda, probado en el planificador, no comprado"
+      },
+      {
+        "request": "Hélices y conectores de repuesto para el dron.",
+        "found": "lista de componentes del montaje FPV: hélices tripala 9×5×3, baterías 6S, «XT60 solo AMASS originales»",
+        "bought": "2 juegos de hélices de la medida anotada + un par de XT60 originales",
+        "notAsked": "«¿Qué tamaño de hélice? ¿Originales o clones?»",
+        "status": "basado en la bóveda, probado en el planificador, no comprado"
+      },
+      {
+        "request": "Pide las juntas tóricas para la carcasa.",
+        "found": "lista de materiales de una carcasa de cámara resistente a la intemperie: juntas tóricas Ø62 en tres secciones y materiales, cordón de silicona por metros, prensaestopas M20×1.5 IP68 ×10, vendedores anteriores",
+        "bought": "las secciones y tamaños de paquete exactos en los vendedores anotados",
+        "notAsked": "«¿Diámetro interior? ¿Sección? ¿Material?»",
+        "status": "basado en la bóveda, probado en el planificador, no comprado"
+      },
+      {
+        "request": "Tacos para la pared de herramientas.",
+        "found": "tipo de pared: no está en las notas",
+        "bought": "nada. Respuesta: «omitido: tacos — falta el tipo de pared (placa de yeso / ladrillo / hormigón)»",
+        "notAsked": "Ese es todo el modo de fallo: una línea omitida, ni una suposición ni un cuestionario.",
+        "status": "la vía de rechazo"
+      }
     ],
-    "note": "Clothes and shoes are never offered — sizes are not in the store yet. Nothing here is a marketing invention: examples 1 and 4–7 come from the owner's real notes; the dried fruit was planned; the anchors were bought; the dowels show the refusal path."
+    "note": "Nunca se ofrecen ropa ni calzado: las tallas todavía no están en la base de conocimiento. Nada de esto es una invención de marketing: los ejemplos 1 y 4–7 salen de las notas reales del propietario; la fruta deshidratada se planificó; los anclajes se compraron; los tacos muestran la vía de rechazo."
   },
   "how": {
-    "eyebrow": "Mechanism",
-    "title": "How it works, in seven steps",
-    "lead": "The deterministic parts — mandate hash, context gate, allowlists, checkout steps, pay click, audit log — live in a small runtime. Your agent decides only at branch points.",
+    "eyebrow": "Mecanismo",
+    "title": "Cómo funciona, en siete pasos",
+    "lead": "Las partes deterministas —hash del mandato, filtro de contexto, listas de permitidos, pasos del checkout, clic de pago, registro de auditoría— viven en un runtime pequeño. Tu agente decide solo en los puntos de bifurcación.",
     "steps": [
-      { "t": "You sign a mandate once", "d": "PURCHASE_MANDATE.md: limits, categories, marketplaces, validity, one-time ceiling. Hash-verified before every payment." },
-      { "t": "The agent reads your context", "d": "asa context:brief searches your notes for the need and records facts, assumptions and open questions. No brief, no search." },
-      { "t": "It searches in your browser", "d": "Results filtered by the mandate, ranked with your history and your do-not-buy list." },
-      { "t": "It plans a basket", "d": "One seller over the free-delivery threshold, at most a few complements you have bought before, one proposal message." },
-      { "t": "It checks the cart", "d": "Seller, price, quantity, condition, delivery cost against the approved plan. Any deviation is a stop." },
-      { "t": "It pays with your saved card", "d": "Bank 3-D Secure is handed to you and the runtime waits up to 5 minutes. CAPTCHA or block page: stop." },
-      { "t": "It logs and reports", "d": "Append-only, redacted JSONL; the purchase is added to your history so the next brief already knows." }
+      {
+        "t": "Firmas un mandato una sola vez",
+        "d": "PURCHASE_MANDATE.md: límites, categorías, marketplaces, vigencia, techo para aprobaciones puntuales. Hash verificado antes de cada pago."
+      },
+      {
+        "t": "El agente lee tu contexto",
+        "d": "asa context:brief busca la necesidad en tus notas y anota hechos, supuestos y preguntas abiertas. Sin resumen no hay búsqueda."
+      },
+      {
+        "t": "Busca en tu navegador",
+        "d": "Resultados filtrados por el mandato y ordenados con tu historial y tu lista de no comprar."
+      },
+      {
+        "t": "Planifica una cesta",
+        "d": "Un vendedor por encima del umbral de envío gratis, como mucho unos pocos complementos que ya has comprado antes, un único mensaje de propuesta."
+      },
+      {
+        "t": "Comprueba el carrito",
+        "d": "Vendedor, precio, cantidad, estado y coste de envío contra el plan aprobado. Cualquier desviación es una parada."
+      },
+      {
+        "t": "Paga con tu tarjeta guardada",
+        "d": "El 3-D Secure del banco te lo pasa a ti y el runtime espera hasta 5 minutos. CAPTCHA o página de bloqueo: parada."
+      },
+      {
+        "t": "Registra e informa",
+        "d": "JSONL de solo anexado y con datos sensibles eliminados; la compra se añade a tu historial para que el siguiente resumen ya la conozca."
+      }
     ],
-    "human": "Human only on: a bank challenge, a CAPTCHA or block page, a deviation from the mandate — and on the first purchases if you keep HUMAN_CONFIRM=1."
+    "human": "Humano solo en: un desafío del banco, un CAPTCHA o página de bloqueo, una desviación del mandato, y en las primeras compras si mantienes HUMAN_CONFIRM=1."
   },
   "guard": {
-    "eyebrow": "You stay in control",
-    "title": "Autonomy ends exactly where your mandate ends",
-    "lead": "Most people would not let an agent pay on its own — and without limits they are right. Every safeguard below is on by default; none can be switched off by the model, only by you editing a file.",
+    "eyebrow": "Tú sigues al mando",
+    "title": "La autonomía termina exactamente donde termina tu mandato",
+    "lead": "La mayoría de la gente no dejaría que un agente pagara por su cuenta, y sin límites tiene razón. Todas las salvaguardas de abajo están activadas por defecto; el modelo no puede desactivar ninguna, solo tú editando un archivo.",
     "rows": [
-      { "t": "One signed file.", "p": "PURCHASE_MANDATE.md lives outside the repo: per-item, per-order and aggregate limits, validity, categories, marketplaces, forbidden actions, a one-off approval ceiling. The SHA-256 of sections 1–6 is verified before every payment; change one byte and the runtime refuses to pay until you re-sign.", "artifact": "asa mandate:check --amount 46.50 --category hardware --domain allegro.pl\n→ OK · remaining [REDACTED]" },
-      { "t": "Limits that hold even when you say \"just this once\".", "p": "A one-off approval is capped by a ceiling you signed and raises the item and order limits for that run only — never the aggregate. A security review found exactly that bypass before any money moved; it was fixed and is covered by tests.", "artifact": "asa override --amount 120 --by \"you (chat)\"\n→ item and order limits only; the aggregate limit still applies" },
-      { "t": "Kill switch that is a file.", "p": "Create MANDATE_REVOKED next to the mandate; the next action is refused. Delete it to resume. No dashboard, no account.", "artifact": "touch MANDATE_REVOKED   # revoked; delete the file to resume" },
-      { "t": "Hard stops, not judgement calls.", "p": "Bot-protection or CAPTCHA page, logged-out state, a selector the runtime cannot resolve, any host outside the allowlist during payment, a declined payment or timeout → STOP. Planned, not yet in code: prompt-injection detector, new-device and auto-added-service detection.", "artifact": "" },
-      { "t": "Your card never enters the model.", "p": "The agent selects a card already saved in your account. Entering card data, CVV or one-time BLIK codes is forbidden by the mandate and not implemented in the code. A bank-transfer redirect is refused as a rail, not attempted.", "artifact": "" },
-      { "t": "Append-only, redacted audit log.", "p": "Every action is written locally as JSONL; every line passes a redaction filter before it is written, and a separate redacted monthly export is what you share. Address-like fields stay out of the log; stored page snapshots exclude payment forms.", "artifact": "asa audit:redact --month 2026-09\n→ measurements/audit-2026-09.redacted.jsonl" },
-      { "t": "Your browser, your accounts — nothing anti-bot.", "p": "It runs in your own logged-in Chrome. No headless browser against a marketplace, no proxies, no anti-detect, no fingerprint spoofing, no CAPTCHA solving — permanently out of scope. If the site says stop, the agent stops.", "artifact": "" }
+      {
+        "t": "Un único archivo firmado.",
+        "p": "PURCHASE_MANDATE.md vive fuera del repositorio: límites por artículo, por pedido y acumulado, vigencia, categorías, marketplaces, acciones prohibidas, un techo para aprobaciones puntuales. El SHA-256 de las secciones 1–6 se verifica antes de cada pago; cambia un solo byte y el runtime se niega a pagar hasta que vuelvas a firmar.",
+        "artifact": "asa mandate:check --amount 46.50 --category hardware --domain allegro.pl\n→ OK · remaining [REDACTED]"
+      },
+      {
+        "t": "Límites que aguantan incluso cuando dices «solo por esta vez».",
+        "p": "Una aprobación puntual está limitada por un techo que firmaste y eleva los límites por artículo y por pedido solo para esa ejecución, nunca el acumulado. Una revisión de seguridad encontró exactamente esa brecha antes de que se moviera dinero; se corrigió y está cubierta por pruebas.",
+        "artifact": "asa override --amount 120 --by \"you (chat)\"\n→ item and order limits only; the aggregate limit still applies"
+      },
+      {
+        "t": "Interruptor de parada que es un archivo.",
+        "p": "Crea MANDATE_REVOKED junto al mandato; la siguiente acción se rechaza. Bórralo para reanudar. Sin panel de control, sin cuenta.",
+        "artifact": "touch MANDATE_REVOKED   # revoked; delete the file to resume"
+      },
+      {
+        "t": "Paradas tajantes, no cuestión de criterio.",
+        "p": "Página de protección antibots o CAPTCHA, sesión cerrada, un selector que el runtime no puede resolver, cualquier host fuera de la lista de permitidos durante el pago, un pago rechazado o un tiempo de espera agotado → STOP. Planificado, aún no en el código: detector de inyección de prompts, detección de dispositivo nuevo y de servicios añadidos automáticamente.",
+        "artifact": ""
+      },
+      {
+        "t": "Tu tarjeta nunca entra en el modelo.",
+        "p": "El agente selecciona una tarjeta ya guardada en tu cuenta. Introducir datos de tarjeta, CVV o códigos BLIK de un solo uso está prohibido por el mandato y no está implementado en el código. Una redirección a transferencia bancaria se rechaza como vía de pago, no se intenta.",
+        "artifact": ""
+      },
+      {
+        "t": "Registro de auditoría de solo anexado y sin datos sensibles.",
+        "p": "Cada acción se escribe en local como JSONL; cada línea pasa por un filtro de eliminación de datos sensibles antes de escribirse, y lo que compartes es una exportación mensual aparte, ya depurada. Los campos con aspecto de dirección quedan fuera del registro; las instantáneas de página almacenadas excluyen los formularios de pago.",
+        "artifact": "asa audit:redact --month 2026-09\n→ measurements/audit-2026-09.redacted.jsonl"
+      },
+      {
+        "t": "Tu navegador, tus cuentas; nada antibots.",
+        "p": "Se ejecuta en tu propio Chrome con sesión iniciada. Sin navegador headless contra un marketplace, sin proxies, sin antidetección, sin suplantación de huella digital, sin resolución de CAPTCHA: fuera del alcance de forma permanente. Si el sitio dice que pares, el agente para.",
+        "artifact": ""
+      }
     ],
-    "mandateTitle": "Template with example values (not the owner's signed file)",
+    "mandateTitle": "Plantilla con valores de ejemplo (no es el archivo firmado del propietario)",
     "mandate": "Single-item limit:          ≤ 60 PLN\nSingle-purchase limit:      ≤ 100 PLN\nAggregate mandate limit:    ≤ <M> PLN\nValidity:                   <from> – <to>\nMarketplaces:               allegro.pl\nPayment instrument:         saved card only\nProhibited: subscriptions, digital goods, age-restricted,\n            new card data, one-time BLIK codes,\n            external payment links, order splitting\nOne-time approvals:         ≤ <N> PLN, in chat, per run\nSHA-256 (sections 1–6):     verified before every payment",
-    "approvalTitle": "The whole approval UI is one reply",
-    "approval": "ok = approve · ok B = take option B · ok without 3 = drop line 3 · ok 84,90 = approve with a one-off ceiling · no = cancel · item limit 120 = amend, re-hash, re-sign",
-    "link": "Full threat model and mitigations",
-    "cta": "Install with your agent"
+    "approvalTitle": "Toda la interfaz de aprobación es una sola respuesta",
+    "approval": "ok = aprobar · ok B = elegir la opción B · ok without 3 = quitar la línea 3 · ok 84,90 = aprobar con un techo puntual · no = cancelar · item limit 120 = modificar, recalcular el hash, volver a firmar",
+    "link": "Modelo de amenazas completo y mitigaciones",
+    "cta": "Instalar con tu agente"
   },
   "compare": {
-    "eyebrow": "Compared with the alternatives",
-    "title": "Where each option keeps the mandate — and whether it can pay",
-    "lead": "As of the 2026-08-31 research (8 agents, ~150 dated sources) and the 2026-09-05 test, no vendor shopping agent both pays autonomously and works on Polish marketplaces; open-source browser agents have no mandate concept and get blocked when headless.",
-    "cols": ["Option", "Who holds the mandate", "Your accounts, prices, Smart!", "Pays without you", "Reads your notes first", "Open source", "Status (dated)"],
-    "rows": [
-      { "name": "Buying manually", "cells": ["You, every time", "Yes", "No — 20–40 clicks per order", "Only what you remember", "—", "—"] },
-      { "name": "ChatGPT agent / Operator-style", "cells": ["Vendor; confirm-before-purchase", "Partly", "No", "No", "No", "Agent mode not offered in the EU/EEA as of 2026-08-31"] },
-      { "name": "OpenAI Instant Checkout / ACP", "cells": ["Merchant side, per step", "US ACP merchants only", "No", "No", "Spec only", "Product wound down 2026-03; ACP spec remains"] },
-      { "name": "Amazon \"Buy for Me\"", "cells": ["Amazon, US beta", "Amazon only", "No", "No", "No", "Not in Poland; litigated against a third-party agent (ruling 2026-08-04)"] },
-      { "name": "Perplexity Comet + PayPal", "cells": ["Perplexity; human confirms", "PayPal, US-centric", "No", "No", "No", "Independent test reported a purchase in a fake store (Guardio Labs, Aug 2025)"] },
-      { "name": "Allegro app in ChatGPT", "cells": ["Allegro; \"Kup na Allegro\" jumps to the site", "Yes", "No", "No", "No", "Official; checkout stays on allegro.pl"] },
-      { "name": "Generic open-source browser agents", "cells": ["None — no limits", "Any site, but headless → blocked", "Can click \"pay\" with a raw card — the risk, not the feature", "No", "Yes", "Cloud variants sell CAPTCHA/proxy bypass"] },
-      { "name": "Agent-commerce CLIs (northcinder, UCP, Link)", "cells": ["Per-deal approval or merchant-held", "US shops, read-only", "No — human pays", "No", "Yes", "Closest cousins, local-first (2026-08-30)"] },
-      { "name": "Agentic Shopping Autopilot", "cells": ["You, once — signed mandate, SHA-256 checked before every payment", "Yes — own Chrome, saved card, Smart! 0 PLN proven", "Yes — 46.50 PLN on 2026-09-05; challenges → stop and hand-off", "Yes", "Yes, Apache-2.0", "Alpha; n = 1; terms-of-service risk stated openly"], "highlight": true }
+    "eyebrow": "Comparado con las alternativas",
+    "title": "Dónde queda el mandato en cada opción, y si puede pagar",
+    "lead": "Según la investigación del 2026-08-31 (8 agentes, ~150 fuentes fechadas) y la prueba del 2026-09-05, ningún agente de compras de un proveedor paga de forma autónoma y además funciona en marketplaces polacos; los agentes de navegador de código abierto no tienen concepto de mandato y se bloquean en modo headless.",
+    "cols": [
+      "Opción",
+      "Quién tiene el mandato",
+      "Tus cuentas, precios, Smart!",
+      "Paga sin ti",
+      "Lee primero tus notas",
+      "Código abierto",
+      "Estado (con fecha)"
     ],
-    "note": "Vendor lines are dated facts from the research, not claims about the future; they change monthly. Unknowns we publish: real 3-D Secure frequency (n = 1), bot-wall tolerance for repeated runs, Allegro API app verification (blocked for us), the Allegro Pay rail, the OLX flow.",
-    "link": "Full comparison with sources"
+    "rows": [
+      {
+        "name": "Comprar a mano",
+        "cells": [
+          "Tú, cada vez",
+          "Sí",
+          "No — 20–40 clics por pedido",
+          "Solo lo que recuerdas",
+          "—",
+          "—"
+        ]
+      },
+      {
+        "name": "Agente de ChatGPT / tipo Operator",
+        "cells": [
+          "El proveedor; confirmación antes de comprar",
+          "En parte",
+          "No",
+          "No",
+          "No",
+          "Modo agente no ofrecido en la UE/EEE a fecha 2026-08-31"
+        ]
+      },
+      {
+        "name": "OpenAI Instant Checkout / ACP",
+        "cells": [
+          "Lado del comerciante, por paso",
+          "Solo comerciantes ACP de EE. UU.",
+          "No",
+          "No",
+          "Solo la especificación",
+          "Producto retirado en 2026-03; la especificación ACP sigue"
+        ]
+      },
+      {
+        "name": "Amazon \"Buy for Me\"",
+        "cells": [
+          "Amazon, beta en EE. UU.",
+          "Solo Amazon",
+          "No",
+          "No",
+          "No",
+          "No disponible en Polonia; litigio contra un agente de terceros (sentencia 2026-08-04)"
+        ]
+      },
+      {
+        "name": "Perplexity Comet + PayPal",
+        "cells": [
+          "Perplexity; confirma un humano",
+          "PayPal, centrado en EE. UU.",
+          "No",
+          "No",
+          "No",
+          "Una prueba independiente informó de una compra en una tienda falsa (Guardio Labs, ago 2025)"
+        ]
+      },
+      {
+        "name": "App de Allegro en ChatGPT",
+        "cells": [
+          "Allegro; \"Kup na Allegro\" salta al sitio",
+          "Sí",
+          "No",
+          "No",
+          "No",
+          "Oficial; el checkout se queda en allegro.pl"
+        ]
+      },
+      {
+        "name": "Agentes de navegador genéricos de código abierto",
+        "cells": [
+          "Nadie — sin límites",
+          "Cualquier sitio, pero headless → bloqueado",
+          "Puede hacer clic en «pagar» con datos de tarjeta en claro: el riesgo, no la función",
+          "No",
+          "Sí",
+          "Las variantes en la nube venden elusión de CAPTCHA/proxies"
+        ]
+      },
+      {
+        "name": "CLIs de comercio agéntico (northcinder, UCP, Link)",
+        "cells": [
+          "Aprobación por operación o en manos del comerciante",
+          "Tiendas de EE. UU., solo lectura",
+          "No — paga un humano",
+          "No",
+          "Sí",
+          "Los parientes más cercanos, local-first (2026-08-30)"
+        ]
+      },
+      {
+        "name": "Agentic Shopping Autopilot",
+        "cells": [
+          "Tú, una sola vez — mandato firmado, SHA-256 comprobado antes de cada pago",
+          "Sí — tu propio Chrome, tarjeta guardada, Smart! a 0 PLN demostrado",
+          "Sí — 46.50 PLN el 2026-09-05; desafíos → parada y traspaso a ti",
+          "Sí",
+          "Sí, Apache-2.0",
+          "Alfa; n = 1; riesgo de términos de servicio declarado abiertamente"
+        ],
+        "highlight": true
+      }
+    ],
+    "note": "Las líneas de proveedores son hechos fechados de la investigación, no afirmaciones sobre el futuro; cambian cada mes. Incógnitas que publicamos: frecuencia real de 3-D Secure (n = 1), tolerancia del muro antibots a ejecuciones repetidas, verificación de la app en la API de Allegro (bloqueada para nosotros), la vía Allegro Pay, el flujo de OLX.",
+    "link": "Comparativa completa con fuentes"
   },
   "install": {
-    "eyebrow": "Run it yourself",
-    "title": "For humans, and for your AI agent",
-    "lead": "You need Chrome with the Claude in Chrome extension, Node 20, and an Allegro account with a card already saved. Two paths exist: the extension-driven flow (the one that has paid) and the asa runtime (tested offline, no live CLI payment yet). The agent-readable version is one prompt you paste.",
-    "humansTitle": "For humans",
-    "humansLead": "Verified on Windows 10; macOS and Linux untested for the checkout channel. Start with a category you can afford to get wrong and 20 minutes.",
+    "eyebrow": "Ponlo en marcha tú mismo",
+    "title": "Para humanos, y para tu agente IA",
+    "lead": "Necesitas Chrome con la extensión Claude in Chrome, Node 20 y una cuenta de Allegro con una tarjeta ya guardada. Hay dos caminos: el flujo dirigido por la extensión (el que ha pagado) y el runtime asa (probado offline, todavía sin pago real desde la CLI). La versión legible por agentes es un prompt que pegas.",
+    "humansTitle": "Para humanos",
+    "humansLead": "Verificado en Windows 10; macOS y Linux sin probar para el canal de checkout. Empieza con una categoría en la que puedas permitirte equivocarte y 20 minutos.",
     "humansSteps": [
-      "Clone and prove the build: npm install && npm test in runtime/ — no marketplace traffic. If it is not green, stop and open an issue.",
-      "Install the skill: copy skills/allegro.pl/ into ~/.claude/skills/ (Claude Code) or your agent's skills folder.",
-      "Create a private folder outside the repo (default ~/.asa/private or ASA_PRIVATE_DIR). Copy examples/PURCHASE_MANDATE.template.md there and fill in limits you would not mind losing — start at 20 PLN per item, 40 PLN aggregate, one category, allegro.pl, 7 days.",
-      "Point the agent at your notes: CONTEXT_STORES=obsidian:<path to your vault> in config.env (never commit it). Run asa profile:check and asa context:brief --need \"test\" — the context gate is now live.",
-      "Sign: the agent shows you the mandate text and its SHA-256; confirm the hash in chat; asa mandate:sign. Keep the file unchanged afterwards.",
-      "Dry run: ask for a search-only task (\"find a Smart! offer for a PVP glue stick 40 g, do not buy\"). Read the proposal and the audit line.",
-      "First live run with HUMAN_CONFIRM=1: everything up to the pay button, then it waits for you. A bank page, CAPTCHA or re-login prompt is your job — the agent says so and waits.",
-      "Afterwards: confirm the order in \"Moje zakupy\", read the audit JSONL, and — if you can — share a redacted receipt in an issue."
+      "Clona y comprueba la compilación: npm install && npm test en runtime/, sin tráfico hacia el marketplace. Si no está en verde, para y abre una incidencia.",
+      "Instala la skill: copia skills/allegro.pl/ en ~/.claude/skills/ (Claude Code) o en la carpeta de skills de tu agente.",
+      "Crea una carpeta privada fuera del repositorio (por defecto ~/.asa/private o ASA_PRIVATE_DIR). Copia allí examples/PURCHASE_MANDATE.template.md y rellena límites que no te importaría perder: empieza con 20 PLN por artículo, 40 PLN acumulado, una categoría, allegro.pl, 7 días.",
+      "Apunta el agente a tus notas: CONTEXT_STORES=obsidian:<ruta a tu bóveda> en config.env (nunca lo subas al repositorio). Ejecuta asa profile:check y asa context:brief --need \"test\": el filtro de contexto ya está activo.",
+      "Firma: el agente te muestra el texto del mandato y su SHA-256; confirma el hash en el chat; asa mandate:sign. Después, no modifiques el archivo.",
+      "Ensayo: pide una tarea de solo búsqueda («busca una oferta Smart! de una barra de pegamento PVP de 40 g, no compres»). Lee la propuesta y la línea de auditoría.",
+      "Primera ejecución real con HUMAN_CONFIRM=1: todo hasta el botón de pago, y ahí te espera. Una página del banco, un CAPTCHA o una petición de nuevo inicio de sesión son cosa tuya: el agente lo dice y espera.",
+      "Después: confirma el pedido en \"Moje zakupy\", lee el JSONL de auditoría y, si puedes, comparte un recibo depurado en una incidencia."
     ],
     "commands": "git clone https://github.com/AndriiShramko/agentic-shopping-autopilot\ncd agentic-shopping-autopilot/runtime\nnpm install && npm test && npm run build",
-    "humansLink": "Full quickstart and user guide on GitHub",
-    "agentsTitle": "For your AI agent",
-    "agentsLead": "Paste this into Claude Code (verified) — Codex, Cursor and Gemini CLI read the same files and should work (untested for purchases). The prompt never asks the agent to pay: you sign, and you run the first live purchase.",
+    "humansLink": "Guía rápida y manual de usuario completos en GitHub",
+    "agentsTitle": "Para tu agente IA",
+    "agentsLead": "Pega esto en Claude Code (verificado); Codex, Cursor y Gemini CLI leen los mismos archivos y deberían funcionar (sin probar para compras). El prompt nunca pide al agente que pague: tú firmas y tú ejecutas la primera compra real.",
     "prompt": "Install Agentic Shopping Autopilot for me. Read\nhttps://raw.githubusercontent.com/AndriiShramko/agentic-shopping-autopilot/main/AGENT_SETUP.md\nand follow it step by step. Ask me only at the decision points it lists\n(limits, categories, marketplaces, validity, the path to my notes).\nNever type card numbers, passwords or one-time codes. Never bypass a\nCAPTCHA, a bot page or 3-D Secure. Do not run asa mandate:sign until I\nwrite \"ok <hash>\" in this chat, and do not buy anything in this session.\nReport \"installed\" only when asa mandate:check and asa browser:check are\ngreen. Machine-readable docs: https://agentic-shopping.flyreelstudio.eu/llms.txt",
-    "copy": "Copy",
-    "copied": "Copied",
-    "agentsNote": "To stop at any time: create MANDATE_REVOKED in the private folder. To uninstall: delete the private folder and the skill folder. Nothing else was installed.",
-    "update": "Updates: git pull --rebase, then npm install && npm test, then read CHANGELOG.md. Re-sign the mandate only if the changelog says its format changed. Share fixes back through CONTRIBUTING.md."
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "agentsNote": "Para parar en cualquier momento: crea MANDATE_REVOKED en la carpeta privada. Para desinstalar: borra la carpeta privada y la carpeta de la skill. No se instaló nada más.",
+    "update": "Actualizaciones: git pull --rebase, luego npm install && npm test, luego lee CHANGELOG.md. Vuelve a firmar el mandato solo si el changelog dice que su formato ha cambiado. Comparte tus correcciones a través de CONTRIBUTING.md."
   },
   "warnings": {
-    "eyebrow": "Read this before you run it",
-    "title": "Twelve things that can go wrong",
-    "lead": "Alpha software with one real purchase behind it. Every transaction under your mandate is your transaction. The author accepted these risks for his own account; nobody can accept them for yours. This page is not legal advice.",
+    "eyebrow": "Lee esto antes de ejecutarlo",
+    "title": "Doce cosas que pueden salir mal",
+    "lead": "Software alfa con una sola compra real a sus espaldas. Cada transacción bajo tu mandato es tu transacción. El autor aceptó estos riesgos para su propia cuenta; nadie puede aceptarlos por la tuya. Esta página no es asesoramiento jurídico.",
     "items": [
-      "Marketplace terms. Allegro's regulation (effective 2026-09-01) says automated tools are used at your own risk (art. 2.8), bans data extraction (art. 10.10) and bots or software tools used in connection with Allegro (art. 10.11); Allegro may block such tools (art. 8) and suspend accounts. Possible outcome: temporary or permanent loss of the account, Smart!, ratings and history.",
-      "Wrong item, quantity or variant — inside your limits, it is yours. Grouped product pages, variant pickers and quantity fields are only partly automated. The agent re-checks seller, price, condition and lines before paying; mistakes remain possible. Your mandate limits are your real protection.",
-      "Responsibility stays with you. A terms breach is your contract with the marketplace; a payment under your mandate is your payment. No Polish or EU case law on agent purchases exists yet.",
-      "Allegro Pay and fraud scoring. Agent sessions look atypical; community reports mention long blocks. Only the saved-card rail is proven; Allegro Pay is untested.",
-      "Bot protection. Headless or fresh browsers are blocked on the first visit (observed 2026-09-03). This project will never bypass it; a block is a stop. Today's pass with a real profile is a window, not a guarantee.",
-      "Bank challenges are law. PSD2 makes periodic 3-D Secure unavoidable. The agent cannot complete it; the runtime waits up to 5 minutes for you, then stops. Bank transfers and one-time BLIK codes are incompatible with autonomy by design.",
-      "Prices and thresholds move. Between search and checkout prices change, Smart! thresholds differ per account, services get auto-added. A cart that differs from the approved plan is a stop, never a silent payment — still check the order afterwards.",
-      "Sellers and scams. Ratings are read; sellers can still be poor. Any off-platform payment request (chat link, \"courier fee\" page) is a hard stop; the agent pays only inside the platform's own checkout.",
-      "Double orders. A retry after a timeout can leave an unpaid duplicate order (it happened in the owner's own history). The runtime never retries a declined payment, but check your order list after a stopped run.",
-      "Re-login, 2FA, \"new device\". A logged-out state stops the run; a wiped profile loses trusted-device status and re-triggers bank and bot checks.",
-      "Vendor policy can change overnight. The proven channel depends on the Claude in Chrome extension permitting purchase clicks; the vendor may re-ask for confirmation, and models may refuse. The mandate is a mitigation, not a guarantee. This project rejects \"ignore your policy\" prompts.",
-      "Prompt injection and your notes. Listing titles, descriptions, seller messages and images are untrusted input. Mitigations: domain and action allowlists, no secrets in the model context; an injection detector is planned. Your profile files are plain text on disk — keep addresses, codes and card data out of what the agent reads."
+      "Términos del marketplace. El reglamento de Allegro (vigente desde el 2026-09-01) dice que las herramientas automatizadas se usan bajo tu propio riesgo (art. 2.8), prohíbe la extracción de datos (art. 10.10) y los bots o herramientas de software usados en relación con Allegro (art. 10.11); Allegro puede bloquear esas herramientas (art. 8) y suspender cuentas. Resultado posible: pérdida temporal o permanente de la cuenta, de Smart!, de las valoraciones y del historial.",
+      "Artículo, cantidad o variante equivocados: dentro de tus límites, es cosa tuya. Las páginas de producto agrupadas, los selectores de variante y los campos de cantidad solo están parcialmente automatizados. El agente vuelve a comprobar vendedor, precio, estado y líneas antes de pagar; los errores siguen siendo posibles. Los límites de tu mandato son tu protección real.",
+      "La responsabilidad sigue siendo tuya. Un incumplimiento de los términos afecta a tu contrato con el marketplace; un pago bajo tu mandato es tu pago. Todavía no existe jurisprudencia polaca ni de la UE sobre compras realizadas por agentes.",
+      "Allegro Pay y puntuación de fraude. Las sesiones de un agente parecen atípicas; hay informes de la comunidad que mencionan bloqueos largos. Solo la vía de tarjeta guardada está demostrada; Allegro Pay no está probado.",
+      "Protección antibots. Los navegadores headless o recién instalados se bloquean en la primera visita (observado el 2026-09-03). Este proyecto nunca lo eludirá; un bloqueo es una parada. Que hoy pase con un perfil real es una ventana, no una garantía.",
+      "Los desafíos del banco son ley. La PSD2 hace inevitable un 3-D Secure periódico. El agente no puede completarlo; el runtime te espera hasta 5 minutos y luego se detiene. Las transferencias bancarias y los códigos BLIK de un solo uso son incompatibles con la autonomía por diseño.",
+      "Los precios y umbrales cambian. Entre la búsqueda y el checkout los precios cambian, los umbrales de Smart! difieren por cuenta, se añaden servicios automáticamente. Un carrito distinto del plan aprobado es una parada, nunca un pago silencioso; aun así, revisa el pedido después.",
+      "Vendedores y estafas. Las valoraciones se leen; los vendedores pueden ser malos igualmente. Cualquier petición de pago fuera de la plataforma (enlace en el chat, página de «gastos de mensajería») es una parada dura; el agente paga solo dentro del checkout propio de la plataforma.",
+      "Pedidos duplicados. Un reintento tras un tiempo de espera agotado puede dejar un pedido duplicado sin pagar (ocurrió en el historial del propio propietario). El runtime nunca reintenta un pago rechazado, pero revisa tu lista de pedidos después de una ejecución detenida.",
+      "Nuevo inicio de sesión, 2FA, «dispositivo nuevo». Una sesión cerrada detiene la ejecución; un perfil borrado pierde el estado de dispositivo de confianza y vuelve a activar las comprobaciones del banco y antibots.",
+      "La política del proveedor puede cambiar de un día para otro. El canal demostrado depende de que la extensión Claude in Chrome permita los clics de compra; el proveedor puede volver a pedir confirmación y los modelos pueden negarse. El mandato es una mitigación, no una garantía. Este proyecto rechaza los prompts de «ignora tu política».",
+      "Inyección de prompts y tus notas. Los títulos de los anuncios, las descripciones, los mensajes de los vendedores y las imágenes son entradas no fiables. Mitigaciones: listas de permitidos de dominios y acciones, ningún secreto en el contexto del modelo; un detector de inyección está planificado. Tus archivos de perfil son texto plano en disco: mantén direcciones, códigos y datos de tarjeta fuera de lo que lee el agente."
     ],
-    "link": "Full list with details (docs/warnings.md)",
-    "security": "Security policy (SECURITY.md)",
-    "cta": "I read it — install with your agent"
+    "link": "Lista completa con detalles (docs/warnings.md)",
+    "security": "Política de seguridad (SECURITY.md)",
+    "cta": "Lo he leído: instalar con tu agente"
   },
   "faq": {
-    "title": "Questions people ask their AI about this",
+    "title": "Preguntas que la gente le hace a su IA sobre esto",
     "items": [
-      { "q": "Can it really spend money without me?", "a": "Yes — inside a PURCHASE_MANDATE.md you sign once (per-item, per-order and aggregate limits, validity, categories, sites, a one-time approval ceiling). On 2026-09-05 it paid 46.50 PLN on Allegro with zero human clicks at checkout. Outside the mandate, or on any bank challenge, the run stops and tells you in chat." },
-      { "q": "Where is my card data?", "a": "Where it already was: saved in your marketplace account. The agent selects a stored card in your own logged-in Chrome; it never types a card number, CVV or BLIK code — forbidden by the mandate and not implemented in the code. Secrets are never placed in the model's context or the audit log." },
-      { "q": "What happens with 3-D Secure or a bank SMS?", "a": "The agent stops. Bank pages are outside the domain allowlist, so it neither reads nor clicks them; the runtime waits up to 5 minutes for you to finish, then stops with no retry. PSD2 makes periodic challenges unavoidable; our single purchase triggered none — that is n = 1, not a rate." },
-      { "q": "How does it know which size, brand and seller I want without asking?", "a": "Before searching, the agent reads your notes — an Obsidian vault or any Markdown folder — for what you own, sizes and standards, past purchases, sellers and do-not-buy lines, and writes a local context brief with facts, assumptions and open questions. Search refuses to run without it. A missing critical attribute means the item is skipped with a one-line note." },
-      { "q": "Which shops does it support?", "a": "Allegro.pl only, today — search, Smart!-aware basket planning and checkout with a saved card. OLX.pl is next, restricted to its native escrow (\"Kup z Przesyłką OLX\"), and is not implemented. Adapters are a Markdown skill plus a selector file, so other shops can be contributed." },
-      { "q": "Does it work with Claude Code, Codex, Cursor?", "a": "Verified with Claude Code plus the Claude in Chrome extension on Windows. Skills use the open Agent Skills format that Codex CLI, Cursor and Gemini CLI read, so planning and the offline runtime should work there — untested, and no purchase has been made through them. The Node 20 runtime runs anywhere." },
-      { "q": "How do I stop it?", "a": "Create an empty file named MANDATE_REVOKED in your private directory; the next action is refused. Edit one byte of the mandate and every payment check fails until you re-sign. Close Chrome and it has no hands. Uninstall is deleting two folders — no service, no account, no server." },
-      { "q": "Is this allowed by Allegro's terms?", "a": "Uncertain, and the risk is yours. The regulation effective 2026-09-01 puts automated tools at the user's risk (art. 2.8), bans scraping (10.10) and bots or software tools used in connection with Allegro (10.11), and lets Allegro block tools (art. 8) and suspend accounts. The often-quoted \"no orders without a human\" sentence does not exist there. Not legal advice." },
-      { "q": "Is it really open source? Which license?", "a": "Yes. Code is Apache-2.0, documentation CC BY 4.0, repository AndriiShramko/agentic-shopping-autopilot. Your mandate, buyer profile and audit logs live in a separate private directory that is never committed. No hosted service, no account, no telemetry; your notes reach only the LLM provider you already use." },
-      { "q": "Why trust a project with one real purchase?", "a": "Don't trust — verify. The receipt, the flow and every caveat are published; the runtime has an offline test suite; a security review caught an aggregate-limit bypass before any money moved; the risk box lists twelve known problems before you ask. Run it in dry-run mode with a 20 PLN cap and read the audit log yourself." }
+      {
+        "q": "¿De verdad puede gastar dinero sin mí?",
+        "a": "Sí, dentro de un PURCHASE_MANDATE.md que firmas una sola vez (límites por artículo, por pedido y acumulado, vigencia, categorías, sitios, un techo para aprobaciones puntuales). El 2026-09-05 pagó 46.50 PLN en Allegro con cero clics humanos en el checkout. Fuera del mandato, o ante cualquier desafío del banco, la ejecución se detiene y te lo dice en el chat."
+      },
+      {
+        "q": "¿Dónde están los datos de mi tarjeta?",
+        "a": "Donde ya estaban: guardados en tu cuenta del marketplace. El agente selecciona una tarjeta almacenada en tu propio Chrome con sesión iniciada; nunca teclea un número de tarjeta, un CVV ni un código BLIK: lo prohíbe el mandato y no está implementado en el código. Los secretos nunca se colocan en el contexto del modelo ni en el registro de auditoría."
+      },
+      {
+        "q": "¿Qué pasa con 3-D Secure o un SMS del banco?",
+        "a": "El agente se detiene. Las páginas del banco están fuera de la lista de dominios permitidos, así que ni las lee ni hace clic en ellas; el runtime espera hasta 5 minutos a que termines y luego se detiene sin reintentar. La PSD2 hace inevitables los desafíos periódicos; nuestra única compra no activó ninguno: eso es n = 1, no una tasa."
+      },
+      {
+        "q": "¿Cómo sabe qué medida, marca y vendedor quiero sin preguntar?",
+        "a": "Antes de buscar, el agente lee tus notas —una bóveda de Obsidian o cualquier carpeta de Markdown— en busca de lo que tienes, medidas y normas, compras anteriores, vendedores y líneas de no comprar, y escribe un resumen de contexto local con hechos, supuestos y preguntas abiertas. La búsqueda se niega a ejecutarse sin él. Si falta un atributo crítico, el artículo se omite con una nota de una línea."
+      },
+      {
+        "q": "¿Qué tiendas admite?",
+        "a": "Hoy, solo Allegro.pl: búsqueda, planificación de cesta que tiene en cuenta Smart! y checkout con tarjeta guardada. OLX.pl es el siguiente, restringido a su depósito de garantía nativo (\"Kup z Przesyłką OLX\"), y no está implementado. Los adaptadores son una skill en Markdown más un archivo de selectores, así que se pueden aportar otras tiendas."
+      },
+      {
+        "q": "¿Funciona con Claude Code, Codex, Cursor?",
+        "a": "Verificado con Claude Code más la extensión Claude in Chrome en Windows. Las skills usan el formato abierto Agent Skills que leen Codex CLI, Cursor y Gemini CLI, así que la planificación y el runtime offline deberían funcionar ahí: sin probar, y no se ha hecho ninguna compra a través de ellos. El runtime en Node 20 se ejecuta en cualquier parte."
+      },
+      {
+        "q": "¿Cómo lo paro?",
+        "a": "Crea un archivo vacío llamado MANDATE_REVOKED en tu directorio privado; la siguiente acción se rechaza. Cambia un solo byte del mandato y todas las comprobaciones de pago fallan hasta que vuelvas a firmar. Cierra Chrome y se queda sin manos. Desinstalar es borrar dos carpetas: sin servicio, sin cuenta, sin servidor."
+      },
+      {
+        "q": "¿Lo permiten los términos de Allegro?",
+        "a": "No está claro, y el riesgo es tuyo. El reglamento vigente desde el 2026-09-01 pone las herramientas automatizadas bajo el riesgo del usuario (art. 2.8), prohíbe el scraping (10.10) y los bots o herramientas de software usados en relación con Allegro (10.11), y permite a Allegro bloquear herramientas (art. 8) y suspender cuentas. La frase tan citada de «ningún pedido sin un humano» no existe ahí. No es asesoramiento jurídico."
+      },
+      {
+        "q": "¿Es realmente de código abierto? ¿Con qué licencia?",
+        "a": "Sí. El código es Apache-2.0, la documentación CC BY 4.0, repositorio AndriiShramko/agentic-shopping-autopilot. Tu mandato, tu perfil de comprador y tus registros de auditoría viven en un directorio privado aparte que nunca se sube al repositorio. Sin servicio alojado, sin cuenta, sin telemetría; tus notas llegan solo al proveedor de LLM que ya usas."
+      },
+      {
+        "q": "¿Por qué confiar en un proyecto con una sola compra real?",
+        "a": "No confíes: verifica. El recibo, el flujo y cada salvedad están publicados; el runtime tiene una batería de pruebas offline; una revisión de seguridad detectó una brecha en el límite acumulado antes de que se moviera dinero; el cuadro de riesgos enumera doce problemas conocidos antes de que preguntes. Ejecútalo en modo de ensayo con un tope de 20 PLN y lee tú mismo el registro de auditoría."
+      }
     ],
-    "cta": "Still a question? Ask me directly"
+    "cta": "¿Te queda alguna pregunta? Pregúntame directamente"
   },
   "about": {
-    "eyebrow": "Author",
-    "title": "Built by a buyer, not a demo — and open to interesting acquaintances",
-    "text": "I'm Andrii Shramko, a Poland-based maker-founder. I build products end-to-end with AI agents: this project; the SpatialCart Protocol (phone room scan → measurable spatial database → fit-verified multi-store order — this agent is its execution leg); a crowd light-show platform; a 3D-Gaussian-splat browser game of my own city; an industrial vision safety-patrol product — all under flyreelstudio.eu with the same method used here.",
+    "eyebrow": "Autor",
+    "title": "Construido por un comprador, no como demo, y abierto a conocer gente interesante",
+    "text": "Soy Andrii Shramko, maker y fundador con base en Polonia. Construyo productos de principio a fin con agentes IA: este proyecto; el SpatialCart Protocol (escaneo de una habitación con el móvil → base de datos espacial medible → pedido multitienda con ajuste verificado; este agente es su brazo de ejecución); una plataforma de espectáculos de luz participativos; un juego de navegador con 3D Gaussian splatting de mi propia ciudad; un producto industrial de patrulla de seguridad por visión artificial. Todo bajo flyreelstudio.eu, con el mismo método usado aquí.",
     "bullets": [
-      "The knowledge store this agent reads is my real workshop memory: two Bambu Lab printers, FPV builds, a 20-camera GoPro rig, weather-proof camera enclosures with full bills of materials.",
-      "Research first: 8 agents and ~150 dated sources before a line of code; primary sources over press.",
-      "A rule of never reporting anything I haven't verified — which is why the receipt above comes with its caveats."
+      "La base de conocimiento que lee este agente es la memoria real de mi taller: dos impresoras Bambu Lab, montajes FPV, un rig de 20 cámaras GoPro, carcasas de cámara resistentes a la intemperie con listas de materiales completas.",
+      "Investigación primero: 8 agentes y ~150 fuentes fechadas antes de una sola línea de código; fuentes primarias por encima de la prensa.",
+      "Una regla de no informar nunca de nada que no haya verificado, y por eso el recibo de arriba viene con sus salvedades."
     ],
-    "collab": "I'm always open to interesting acquaintances and ready to help teams build incredible projects — as a partner, a builder, or the person who assembles and leads the team: agentic commerce, site-skill registries, spatial commerce. Marketplaces, payments teams, researchers, founders who want an agent that actually finishes the purchase: write to me.",
-    "cta": "Book 30 minutes",
-    "ctaForm": "Write a message",
-    "links": { "author": "Author", "calendar": "Book a call" }
+    "collab": "Siempre estoy abierto a conocer gente interesante y dispuesto a ayudar a equipos a construir proyectos increíbles: como socio, como quien lo construye o como la persona que reúne y lidera el equipo. Comercio agéntico, registros de skills por sitio, comercio espacial. Marketplaces, equipos de pagos, investigadores, fundadores que quieren un agente que de verdad termine la compra: escríbeme.",
+    "cta": "Reservar 30 minutos",
+    "ctaForm": "Escribir un mensaje",
+    "links": {
+      "author": "Autor",
+      "calendar": "Reservar una llamada"
+    }
   },
   "share": {
-    "title": "If it saves you a trip through checkout, send something back",
+    "title": "Si te ahorra pasar por el checkout, devuelve algo a cambio",
     "items": [
-      "Watch or fork the repository so the next receipt reaches you.",
-      "Contribute a shop adapter (skills/<site>/SKILL.md + selectors.yaml) — the first target after Allegro is OLX via its native escrow.",
-      "Verify a selector: skills/allegro.pl/selectors.yaml still carries entries marked to verify; fix one with asa selectors:set and send a pull request.",
-      "Report what broke — a changed selector, a new checkout step, a bot wall — with the redacted audit line. Never attach the private directory, config.env or screenshots of payment pages.",
-      "Share your own redacted receipt (asa audit:redact). Every verified run raises n above 1.",
-      "Security issues privately: see SECURITY.md — not a public issue."
+      "Sigue (watch) o haz un fork del repositorio para que te llegue el siguiente recibo.",
+      "Aporta un adaptador de tienda (skills/<site>/SKILL.md + selectors.yaml): el primer objetivo después de Allegro es OLX a través de su depósito de garantía nativo.",
+      "Verifica un selector: skills/allegro.pl/selectors.yaml todavía tiene entradas marcadas como pendientes de verificar; arregla una con asa selectors:set y envía un pull request.",
+      "Informa de lo que se rompió —un selector cambiado, un paso nuevo en el checkout, un muro antibots— con la línea de auditoría depurada. Nunca adjuntes el directorio privado, config.env ni capturas de pantalla de páginas de pago.",
+      "Comparte tu propio recibo depurado (asa audit:redact). Cada ejecución verificada eleva n por encima de 1.",
+      "Problemas de seguridad, en privado: consulta SECURITY.md; no abras una incidencia pública."
     ],
-    "issue": "Open an issue",
-    "contrib": "How to contribute"
+    "issue": "Abrir una incidencia",
+    "contrib": "Cómo contribuir"
   },
   "form": {
-    "eyebrow": "Get in touch",
-    "title": "Tell me what you want to do with it",
-    "lead": "One message, a few taps. You get a personal reply and, if you want it, the next receipt or early access to the OLX adapter. I read every submission myself — usually within two working days.",
-    "intent": { "label": "I want to", "try": "Run it on my notes", "partner": "Partner or integrate", "hire": "Hire or collaborate with the author", "invest": "Invest", "skill": "Add a shop adapter or code", "press": "Write about it" },
-    "agent": { "label": "My agent (optional)", "other": "Other", "none": "None yet" },
-    "contact": { "label": "How to reach you", "placeholder": "email, @telegram or LinkedIn URL", "help": "Email, a Telegram handle, a phone or a LinkedIn link — whatever you check.", "hint": "That doesn't look like an email, handle, phone or LinkedIn link — check for a typo." },
-    "message": { "label": "One line, if you like", "optional": "optional", "placeholder": "What would you buy first, or what should we talk about?" },
-    "consent": { "text": "I agree that Andrii Shramko (flyreelstudio.eu, Poland) stores my contact and answers to reply to me and, only if I asked for it, to send occasional project updates (a few per year, stop any time). Kept for 12 months after the last contact; delete on request.", "link": "Privacy" },
-    "submit": "Send — I reply personally",
-    "sending": "Sending…",
-    "ready": "Ready to send.",
-    "needContact": "Add a way to reach you and tick the consent box.",
-    "error": "Could not send right now — your text is kept in this browser; try again in a minute, or write on LinkedIn.",
-    "done": { "title": "Got it. You'll hear from me at the contact you gave.", "text": "Meanwhile: the repository, AGENT_SETUP.md and the eight scenarios above are the fastest way to see whether this fits you." }
+    "eyebrow": "Contacto",
+    "title": "Cuéntame qué quieres hacer con esto",
+    "lead": "Un mensaje, unos pocos toques. Recibes una respuesta personal y, si la quieres, el siguiente recibo o acceso anticipado al adaptador de OLX. Leo cada envío yo mismo, normalmente en dos días laborables.",
+    "intent": {
+      "label": "Quiero",
+      "try": "Ejecutarlo con mis notas",
+      "partner": "Asociarme o integrar",
+      "hire": "Contratar o colaborar con el autor",
+      "invest": "Invertir",
+      "skill": "Aportar un adaptador de tienda o código",
+      "press": "Escribir sobre el proyecto"
+    },
+    "agent": {
+      "label": "Mi agente (opcional)",
+      "other": "Otro",
+      "none": "Ninguno todavía"
+    },
+    "contact": {
+      "label": "Cómo contactarte",
+      "placeholder": "email, @telegram o URL de LinkedIn",
+      "help": "Email, un usuario de Telegram, un teléfono o un enlace de LinkedIn: lo que consultes de verdad.",
+      "hint": "Eso no parece un email, un usuario, un teléfono ni un enlace de LinkedIn; revisa si hay una errata."
+    },
+    "message": {
+      "label": "Una línea, si quieres",
+      "optional": "opcional",
+      "placeholder": "¿Qué comprarías primero, o de qué deberíamos hablar?"
+    },
+    "consent": {
+      "text": "Acepto que Andrii Shramko (flyreelstudio.eu, Polonia) guarde mi contacto y mis respuestas para contestarme y, solo si lo he pedido, para enviarme novedades ocasionales del proyecto (unas pocas al año, cancelables en cualquier momento). Se conservan 12 meses tras el último contacto; se eliminan a petición.",
+      "link": "Privacidad"
+    },
+    "submit": "Enviar — respondo personalmente",
+    "sending": "Enviando…",
+    "ready": "Listo para enviar.",
+    "needContact": "Añade una forma de contactarte y marca la casilla de consentimiento.",
+    "error": "No se pudo enviar ahora mismo; tu texto se conserva en este navegador. Inténtalo de nuevo en un minuto o escríbeme por LinkedIn.",
+    "done": {
+      "title": "Recibido. Tendrás noticias mías en el contacto que has indicado.",
+      "text": "Mientras tanto: el repositorio, AGENT_SETUP.md y los ocho escenarios de arriba son la forma más rápida de ver si esto encaja contigo."
+    }
   },
   "footer": {
-    "privacyTitle": "Privacy and legal",
+    "privacyTitle": "Privacidad y aviso legal",
     "privacy": [
-      "Independent open-source project. Not affiliated with, endorsed by or certified by Allegro, OLX, Anthropic, OpenAI, Google or any bank. Allegro, Smart!, Allegro Pay, OLX, Claude and Codex are trademarks of their owners, named only to describe compatibility.",
-      "Alpha software provided \"as is\" without warranty of any kind (Apache-2.0). One real purchase so far. Automated use of a marketplace may breach its terms (Allegro regulation effective 2026-09-01, art. 2.8, 10.10, 10.11, 8) and can lead to account suspension; the author accepted that risk for himself — you decide for yourself. Every purchase under your mandate is your purchase. Nothing on this page is financial, legal or investment advice.",
-      "Data controller: Andrii Shramko, flyreelstudio.eu, Poland (zmei116@gmail.com). Lead-form data is stored on an EU server and forwarded to a private Telegram channel of the author only to reply and, if you asked for it, to send occasional updates; kept for 12 months after the last contact; erasure on request; you may complain to the Polish supervisory authority (UODO). Analytics (Google Analytics 4) loads only after you accept; nothing is sent to Google before that."
+      "Proyecto independiente de código abierto. Sin afiliación, respaldo ni certificación de Allegro, OLX, Anthropic, OpenAI, Google ni de ningún banco. Allegro, Smart!, Allegro Pay, OLX, Claude y Codex son marcas de sus respectivos titulares, mencionadas únicamente para describir compatibilidad.",
+      "Software alfa que se proporciona «tal cual», sin garantía de ningún tipo (Apache-2.0). Una sola compra real hasta la fecha. El uso automatizado de un marketplace puede incumplir sus términos (reglamento de Allegro vigente desde el 2026-09-01, art. 2.8, 10.10, 10.11, 8) y puede conllevar la suspensión de la cuenta; el autor aceptó ese riesgo para sí mismo; tú decides por ti. Cada compra bajo tu mandato es tu compra. Nada en esta página constituye asesoramiento financiero, jurídico ni de inversión.",
+      "Responsable del tratamiento: Andrii Shramko, flyreelstudio.eu, Polonia (zmei116@gmail.com). Los datos del formulario de contacto se almacenan en un servidor de la UE y se reenvían a un canal privado de Telegram del autor únicamente para responder y, si lo has pedido, para enviar novedades ocasionales; se conservan 12 meses tras el último contacto; supresión a petición; puedes reclamar ante la autoridad de control polaca (UODO). La analítica (Google Analytics 4) se carga solo después de que aceptes; antes no se envía nada a Google."
     ],
-    "license": "Apache-2.0 code · CC BY 4.0 docs",
-    "updated": "Updated {date}"
+    "license": "Código Apache-2.0 · Documentación CC BY 4.0",
+    "updated": "Actualizado {date}"
   }
 }
