@@ -1,0 +1,21 @@
+# secrets — never in git
+config.env
+.env
+.env.*
+*.pem
+*.key
+
+# lead store + backups (server-side only)
+data/
+ops/backups/
+
+# build artefacts
+web/node_modules/
+web/.next/
+web/out/
+web/next-env.d.ts
+dist.tgz
+evidence/
+artifacts/
+*.log
+web/serve/

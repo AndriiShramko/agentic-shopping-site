@@ -1,0 +1,29 @@
+# Agentic Shopping Autopilot (ASA)
+
+> Open-source (Apache-2.0) layer that lets a user's own AI agent (Claude Code verified; Codex, Cursor, Gemini CLI untested) read the user's knowledge store first, then find, order and pay for goods on Allegro.pl inside the user's own logged-in Chrome, under a SHA-256-verified spending mandate the user signs once. Author: Andrii Shramko, Poland. Not affiliated with Allegro.
+
+Status (2026-09-05): alpha. First real autonomous payment 2026-09-05: 46.50 PLN, delivery 0 PLN via Allegro Smart!, saved card, no 3-D Secure, no CAPTCHA, zero human clicks at checkout (item pre-placed in the cart by the owner); driven through the Claude in Chrome extension in the owner's own profile. Runtime: Node 20 + TypeScript, offline test suite, no live CLI payment yet. OLX.pl not implemented. Allegro Pay untested. n = 1 on 3-D Secure.
+
+Context-first rule: before searching or choosing anything the agent consults the user's knowledge store (Obsidian vault, folder of notes, JSONL profile) through `asa context:brief`; search and basket planning refuse to run without a fresh brief. Facts, assumptions and open questions are recorded; a missing critical attribute means the item is skipped, never a question round.
+
+Safety model: PURCHASE_MANDATE.md (per-item, per-order and aggregate limits, validity, categories, sites, one-time approval ceiling) verified by SHA-256 before every payment; MANDATE_REVOKED kill-switch file; append-only redacted audit JSONL; domain allowlist; STOP on bot page, CAPTCHA, logged-out state, off-allowlist host during payment (3-D Secure hand-off, waits up to 5 min, no retry), declined payment. Never enters card data, CVV or BLIK codes; no anti-detect, proxies or CAPTCHA solving.
+
+Known risks: Allegro regulation (ed. 2026-09-01) art. 2.8 automation at user's risk, 10.10 scraping ban, 10.11 bots/software tools ban, art. 8 blocking right; account suspension possible; PSD2 challenges unavoidable; prompt injection from listings; the user bears responsibility.
+
+## Site
+- [Landing (EN)](https://agentic-shopping.flyreelstudio.eu/en/): proof, flow, scenarios, controls, install for humans and agents, risks, FAQ, contact
+- Also in [Español](https://agentic-shopping.flyreelstudio.eu/es/), [Polski](https://agentic-shopping.flyreelstudio.eu/pl/), [Русский](https://agentic-shopping.flyreelstudio.eu/ru/)
+
+## Install for AI agents
+- [AGENT_SETUP.md](https://raw.githubusercontent.com/AndriiShramko/agentic-shopping-autopilot/main/AGENT_SETUP.md): the protocol an agent follows to install, configure, update and uninstall for its user
+- [AGENTS.md](https://raw.githubusercontent.com/AndriiShramko/agentic-shopping-autopilot/main/AGENTS.md): repository conventions for coding agents
+- [Allegro.pl skill](https://raw.githubusercontent.com/AndriiShramko/agentic-shopping-autopilot/main/skills/allegro.pl/SKILL.md)
+
+## Code and docs
+- [Repository](https://github.com/AndriiShramko/agentic-shopping-autopilot): README, runtime/, docs/
+- [Warnings](https://github.com/AndriiShramko/agentic-shopping-autopilot/blob/main/docs/warnings.md), [Security policy](https://github.com/AndriiShramko/agentic-shopping-autopilot/blob/main/SECURITY.md), [Comparison with sources](https://github.com/AndriiShramko/agentic-shopping-autopilot/blob/main/docs/landscape.md)
+- [Repository llms.txt](https://raw.githubusercontent.com/AndriiShramko/agentic-shopping-autopilot/main/llms.txt)
+
+## Contact
+- Andrii Shramko · [LinkedIn](https://www.linkedin.com/in/andrii-shramko/) · [Book a call](https://calendar.app.google/Ff729HqGk4RpzPNDA) · zmei116@gmail.com · [GitHub](https://github.com/AndriiShramko)
+- Open to interesting acquaintances and to helping teams build incredible projects: partnership, licensing, funding, joining or leading a team.

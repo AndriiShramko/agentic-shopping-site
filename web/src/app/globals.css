@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* Dark theme only (owner's playbook §2): near-black ground, one warm accent (the "paid" green
+   is reserved for proof/receipt moments), lots of air. Every text/background pair >= 4.5:1. */
+@theme {
+  --color-bg: #07090d;
+  --color-surface: #0e1219;
+  --color-surface-2: #141a24;
+  --color-ink: #eef1f6;
+  --color-muted: #a3adbd;
+  --color-accent: #ff8a3d; /* warm amber-orange: CTA, highlights */
+  --color-accent-strong: #ffa76b;
+  --color-ok: #4ade80; /* "Zakup opłacony" / paid states */
+  --color-line: #222b3a;
+  --color-border-input: #55648a; /* >= 3:1 on bg for interactive borders (WCAG 1.4.11) */
+  --color-danger: #ff9d9d;
+
+  --font-display: "Unbounded", "Arial Black", sans-serif;
+  --font-body: "Onest Variable", "Segoe UI", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+}
+
+/* Visible focus (WCAG 2.4.11) */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #1a0f05;
+}
+
+/* RULE (build log 2026-07-12): content must be visible with ZERO JavaScript.
+   No "hidden until JS reveals it" patterns. Animations only ADD motion to visible content. */
+@keyframes rise {
+  from {
+    opacity: 0.001;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.55s ease-out both;
+}
+
+/* Soft ambient glow for the hero — pure CSS, no images, no LCP cost */
+.glow {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(255, 138, 61, 0.16), transparent 70%),
+    radial-gradient(40% 40% at 90% 20%, rgba(74, 222, 128, 0.08), transparent 70%);
+}
+
+/* Touch targets >= 44px, inputs >= 16px (playbook §4) */
+.chip {
+  min-height: 44px;
+  font-size: 16px;
+}
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Receipt / terminal look for the proof block */
+.receipt {
+  border: 1px solid var(--color-line);
+  background: linear-gradient(180deg, var(--color-surface), var(--color-surface-2));
+  box-shadow: 0 30px 80px -40px rgba(255, 138, 61, 0.35);
+}
+
+/* Fine-grained transitions only where hover states exist (no fake affordances) */
+a,
+button {
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}

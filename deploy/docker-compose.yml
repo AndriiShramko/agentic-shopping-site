@@ -1,0 +1,61 @@
+# agentic-shopping.flyreelstudio.eu — deployed to /home/fpv/agentic-shopping/ on the hub.
+# Pattern: owner's spec-ops — NO host ports (only the shared nginx-proxy via the
+# external `web-proxy` network), own internal network for the form backend,
+# memory/pid limits, log rotation, read-only containers.
+name: agentic-shopping
+
+services:
+  agentic-shopping-web:
+    image: nginx:alpine
+    container_name: agentic-shopping-web
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=agentic-shopping.flyreelstudio.eu
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=agentic-shopping.flyreelstudio.eu
+      - LETSENCRYPT_EMAIL=zmei116@gmail.com
+      # first run only: uncomment for an ACME staging dry-run, then remove + recreate
+      # - LETSENCRYPT_TEST=true
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [web-proxy, agentic-shopping-internal]
+    depends_on: [agentic-shopping-form]
+    mem_limit: 96m
+    memswap_limit: 96m
+    cpus: 0.5
+    pids_limit: 64
+    security_opt: ["no-new-privileges:true"]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  agentic-shopping-form:
+    image: python:3.12-alpine
+    container_name: agentic-shopping-form
+    restart: unless-stopped
+    command: ["python", "/app/server.py"]
+    env_file: ./config.env          # TG_BOT_TOKEN, TG_CHAT_ID — chmod 600, NOT in git
+    environment:
+      - PORT=8089
+      - SITE_TAG=agentic-shopping
+      - DATA_DIR=/data
+    volumes:
+      - ./form/server.py:/app/server.py:ro
+      - ./data:/data                  # leads.jsonl — durable local lead store (backed up)
+    read_only: true
+    tmpfs: [/tmp:size=8m]
+    networks: [agentic-shopping-internal]
+    mem_limit: 64m
+    memswap_limit: 64m
+    cpus: 0.25
+    pids_limit: 32
+    security_opt: ["no-new-privileges:true"]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+networks:
+  web-proxy:
+    external: true        # shared reverse-proxy network — never create/modify
+  agentic-shopping-internal: {}
