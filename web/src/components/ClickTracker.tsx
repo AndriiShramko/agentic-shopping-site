@@ -12,6 +12,21 @@ import { track, type FunnelEvent } from "@/lib/track";
  */
 export default function ClickTracker() {
   useEffect(() => {
+    // Page view + scroll depth: first-party, cookieless, fires for every visitor.
+    track("page_view");
+    const marks = [25, 50, 75, 100];
+    let sent = 0;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = ((h.scrollTop + window.innerHeight) / h.scrollHeight) * 100;
+      while (sent < marks.length && pct >= marks[sent]) {
+        track("scroll_depth", { percent: marks[sent] });
+        sent++;
+      }
+      if (sent >= marks.length) window.removeEventListener("scroll", onScroll);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const onClick = (e: MouseEvent) => {
       const el = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-track],[data-lang]");
       if (!el) return;
@@ -38,6 +53,7 @@ export default function ClickTracker() {
     document.addEventListener("click", onClick);
     document.addEventListener("toggle", onToggle, true);
     return () => {
+      window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", onClick);
       document.removeEventListener("toggle", onToggle, true);
     };

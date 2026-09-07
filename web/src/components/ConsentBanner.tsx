@@ -1,27 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { GA_ID, loadGa, track } from "@/lib/track";
+import { GA_ID, initGa, setAnalyticsConsent, track } from "@/lib/track";
 
 const KEY = "asa_consent";
 
 /**
- * EU consent gate for GA4 (playbook §8, Consent Mode). Nothing loads before "Accept".
- * Rendered only when a GA id is configured — otherwise the site has zero trackers and no banner.
+ * Cookie banner for GA4 only. Measurement itself never depends on it:
+ * the first-party cookieless counter runs for everyone, and GA4 is loaded in
+ * Consent Mode "denied" (no identifiers stored) until the visitor accepts.
  */
 export default function ConsentBanner() {
   const t = useTranslations("consent");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    initGa();
     if (!GA_ID) return;
+    let stored: string | null = null;
     try {
-      const v = localStorage.getItem(KEY);
-      if (v === "yes") loadGa();
-      else if (v !== "no") setOpen(true);
+      stored = localStorage.getItem(KEY);
     } catch {
-      setOpen(true);
+      stored = null;
     }
+    if (stored === "yes") setAnalyticsConsent(true);
+    else if (stored !== "no") setOpen(true);
   }, []);
 
   if (!GA_ID || !open) return null;
@@ -33,10 +36,8 @@ export default function ConsentBanner() {
       /* ignore */
     }
     setOpen(false);
-    if (yes) {
-      loadGa();
-      track("consent_accept");
-    }
+    setAnalyticsConsent(yes);
+    track(yes ? "consent_accept" : "consent_decline");
   };
 
   return (

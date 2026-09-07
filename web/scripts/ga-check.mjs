@@ -3,22 +3,32 @@ const BASE = process.env.BASE ?? "https://agentic-shopping.flyreelstudio.eu";
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
-const reqs = [];
-page.on("response", (r) => { const u = r.url(); if (/google-analytics|googletagmanager|analytics\.google|doubleclick/.test(u)) reqs.push({ url: u.slice(0, 90), status: r.status() }); });
+const google = [], own = [];
+page.on("response", (r) => {
+  const u = r.url();
+  if (/google-analytics|googletagmanager|analytics\.google/.test(u)) google.push({ u, s: r.status() });
+  if (/\/api\/e$/.test(u)) own.push({ u, s: r.status() });
+});
+// 1) visitor who never touches the banner
 await page.goto(`${BASE}/en/`, { waitUntil: "networkidle" });
-await page.waitForTimeout(1500);
-const before = reqs.length;
-const bannerVisible = await page.locator('[role="dialog"]').filter({ hasText: /Analytics/ }).isVisible().catch(() => false);
-console.log("before consent: google requests =", before, "| banner visible =", bannerVisible);
-await page.locator('[role="dialog"] button', { hasText: /Accept/ }).click();
-await page.waitForTimeout(4000);
-await page.locator('a[href="#install"]').first().click();
 await page.waitForTimeout(2500);
-const collect = reqs.filter((r) => /\/g\/collect/.test(r.url));
-console.log("after accept: gtag loaded =", reqs.some((r) => /gtag\/js\?id=G-2288CN6DJW/.test(r.url)), "| /g/collect hits =", collect.length, collect.map((c) => c.status).join(","));
-// reload: consent remembered → gtag loads again without banner
-await page.reload({ waitUntil: "networkidle" });
+const collectBefore = google.filter((g) => /\/g\/collect/.test(g.u));
+console.log("no-consent visitor: own /api/e hits =", own.length, own.map((o) => o.s).join(","), "| GA cookieless /g/collect =", collectBefore.length, collectBefore.map((c) => c.s).join(","));
+const cookiesBefore = (await ctx.cookies()).filter((c) => c.name.startsWith("_ga"));
+console.log("GA cookies before consent =", cookiesBefore.length, "(must be 0)");
+// 2) interact without consenting: funnel events still measured
+await page.locator('a[href="#install"]').first().click();
 await page.waitForTimeout(1500);
-console.log("after reload: banner visible =", await page.locator('[role="dialog"]').filter({ hasText: /Analytics/ }).isVisible().catch(() => false), "| total google requests =", reqs.length);
+console.log("after a CTA click without consent: own hits =", own.length);
+// 3) accept -> cookies + granted pings
+await page.locator('[role="dialog"] button', { hasText: /Accept|Akceptuj|Aceptar|Прин/ }).click();
+await page.waitForTimeout(3000);
+await page.locator('a[href="#contact"]').first().click();
+await page.waitForTimeout(2000);
+const cookiesAfter = (await ctx.cookies()).filter((c) => c.name.startsWith("_ga"));
+const collectAfter = google.filter((g) => /\/g\/collect/.test(g.u));
+console.log("after Accept: GA cookies =", cookiesAfter.length, "| total /g/collect =", collectAfter.length, collectAfter.map((c) => c.s).join(","));
 await browser.close();
-process.exit(before === 0 && collect.length > 0 && collect.every((c) => c.status === 204 || c.status === 200) ? 0 : 1);
+const ok = own.length >= 2 && own.every((o) => o.s === 204) && collectBefore.length > 0 && cookiesBefore.length === 0 && cookiesAfter.length > 0;
+console.log(ok ? "PASS" : "FAIL");
+process.exit(ok ? 0 : 1);

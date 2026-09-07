@@ -8,7 +8,7 @@
   },
   "consent": {
     "title": "Analytics cookies?",
-    "text": "They help me see which sections people read. Nothing is loaded until you choose.",
+    "text": "Basic, cookieless measurement runs either way; accepting only adds Google's analytics cookies.",
     "accept": "Accept analytics",
     "decline": "Decline"
   },
@@ -574,7 +574,7 @@
     "privacy": [
       "Independent open-source project. Not affiliated with, endorsed by or certified by Allegro, OLX, Anthropic, OpenAI, Google or any bank. Allegro, Smart!, Allegro Pay, OLX, Claude and Codex are trademarks of their owners, named only to describe compatibility.",
       "Alpha software provided \"as is\" without warranty of any kind (Apache-2.0). One real purchase so far. Automated use of a marketplace may breach its terms (Allegro regulation effective 2026-09-01, art. 2.8, 10.10, 10.11, 8) and can lead to account suspension; the author accepted that risk for himself — you decide for yourself. Every purchase under your mandate is your purchase. Nothing on this page is financial, legal or investment advice.",
-      "Data controller: Andrii Shramko, flyreelstudio.eu, Poland (zmei116@gmail.com). Lead-form data is stored on an EU server and forwarded to a private Telegram channel of the author only to reply and, if you asked for it, to send occasional updates; kept for 12 months after the last contact; erasure on request; you may complain to the Polish supervisory authority (UODO). Analytics (Google Analytics 4) loads only after you accept; nothing is sent to Google before that."
+      "Data controller: Andrii Shramko, flyreelstudio.eu, Poland (zmei116@gmail.com). Lead-form data is stored on an EU server and forwarded to a private Telegram channel of the author only to reply and, if you asked for it, to send occasional updates; kept for 12 months after the last contact; erasure on request; you may complain to the Polish supervisory authority (UODO). Measurement: this site counts page views and clicks itself — without cookies and without storing your IP address or any identifier, only the event name, page, language, referring site and a screen-size bucket. Google Analytics 4 runs in Google's Consent Mode: before you accept it stores nothing on your device, and analytics cookies are set only if you accept."
     ],
     "license": "Apache-2.0 code · CC BY 4.0 docs",
     "updated": "Updated {date}"

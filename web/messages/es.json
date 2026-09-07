@@ -8,7 +8,7 @@
   },
   "consent": {
     "title": "¿Cookies de analítica?",
-    "text": "Me ayudan a ver qué secciones lee la gente. No se carga nada hasta que decidas.",
+    "text": "La medición básica sin cookies funciona igualmente; aceptar solo añade las cookies analíticas de Google.",
     "accept": "Aceptar analítica",
     "decline": "Rechazar"
   },
@@ -574,7 +574,7 @@
     "privacy": [
       "Proyecto independiente de código abierto. Sin afiliación, respaldo ni certificación de Allegro, OLX, Anthropic, OpenAI, Google ni de ningún banco. Allegro, Smart!, Allegro Pay, OLX, Claude y Codex son marcas de sus respectivos titulares, mencionadas únicamente para describir compatibilidad.",
       "Software alfa que se proporciona «tal cual», sin garantía de ningún tipo (Apache-2.0). Una sola compra real hasta la fecha. El uso automatizado de un marketplace puede incumplir sus términos (reglamento de Allegro vigente desde el 2026-09-01, art. 2.8, 10.10, 10.11, 8) y puede conllevar la suspensión de la cuenta; el autor aceptó ese riesgo para sí mismo; tú decides por ti. Cada compra bajo tu mandato es tu compra. Nada en esta página constituye asesoramiento financiero, jurídico ni de inversión.",
-      "Responsable del tratamiento: Andrii Shramko, flyreelstudio.eu, Polonia (zmei116@gmail.com). Los datos del formulario de contacto se almacenan en un servidor de la UE y se reenvían a un canal privado de Telegram del autor únicamente para responder y, si lo has pedido, para enviar novedades ocasionales; se conservan 12 meses tras el último contacto; supresión a petición; puedes reclamar ante la autoridad de control polaca (UODO). La analítica (Google Analytics 4) se carga solo después de que aceptes; antes no se envía nada a Google."
+      "Responsable del tratamiento: Andrii Shramko, flyreelstudio.eu, Polonia (zmei116@gmail.com). Los datos del formulario de contacto se almacenan en un servidor de la UE y se reenvían a un canal privado de Telegram del autor únicamente para responder y, si lo has pedido, para enviar novedades ocasionales; se conservan 12 meses tras el último contacto; supresión a petición; puedes reclamar ante la autoridad de control polaca (UODO). Medición: este sitio cuenta las visitas y los clics por su cuenta, sin cookies y sin guardar tu dirección IP ni ningún identificador: solo el nombre del evento, la página, el idioma, el sitio de procedencia y un rango de tamaño de pantalla. Google Analytics 4 funciona en el Modo de consentimiento de Google: antes de que aceptes no guarda nada en tu dispositivo, y las cookies analíticas se instalan solo si aceptas."
     ],
     "license": "Código Apache-2.0 · Documentación CC BY 4.0",
     "updated": "Actualizado {date}"

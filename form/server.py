@@ -5,7 +5,12 @@ POST /api/lead   -> (1) append to a local JSONL store (durable, backed up with t
                     Body may carry "stage": "partial" (identity captured early, playbook §4) or
                     "final" (default). A partial is forwarded only if no final arrives within
                     PARTIAL_DELAY_S (default 30 min) — so the operator still sees abandoned leads.
+POST /api/e      -> cookieless first-party page/funnel counter. No cookies, no IDs, no IP stored:
+                    one JSONL line per event with name, path, locale, referrer host, viewport bucket.
+                    Works for every visitor regardless of the cookie banner, so traffic is always
+                    measured; GA4 stays the second layer.
 GET  /api/health -> {"ok": true, "pending_partials": n}
+GET  /api/stats  -> aggregated counters for the operator (loopback / ops script only)
 
 Design (owner's WEB-PLAYBOOK §4/§5):
 - TG_BOT_TOKEN / TG_CHAT_ID only from env (config.env on the server, chmod 600, never in git).
@@ -31,9 +36,18 @@ RATE_N, RATE_WINDOW = 8, 3600.0
 SITE = os.environ.get("SITE_TAG", "agentic-shopping")
 DATA_DIR = Path(os.environ.get("DATA_DIR", "/data"))
 LEADS_FILE = DATA_DIR / "leads.jsonl"
+EVENTS_FILE = DATA_DIR / "events.jsonl"
 PARTIAL_DELAY_S = float(os.environ.get("PARTIAL_DELAY_S", "1800"))
 
 INTENT_TYPES = {"try", "partner", "hire", "invest", "press", "skill", "other"}
+# Allowlist: anything else is dropped, so the file can never be used as free-form storage.
+EVENT_NAMES = {
+    "page_view", "cta_click", "lang_switch", "copy_agent_prompt", "github_click",
+    "form_open", "form_step", "form_submit", "form_success", "form_error",
+    "faq_open", "example_open", "consent_accept", "consent_decline", "scroll_depth",
+}
+EVENT_RATE_N, EVENT_RATE_WINDOW = 120, 600.0
+_ehits: dict[str, deque] = defaultdict(deque)
 _hits: dict[str, deque] = defaultdict(deque)
 _lock = threading.Lock()
 # leadId -> {"ts": float, "text": str}; removed when finalised or forwarded
@@ -50,6 +64,23 @@ def _allowed(ip: str) -> bool:
         return False
     q.append(now)
     return True
+
+
+def _allowed_event(ip: str) -> bool:
+    q = _ehits[ip]
+    now = time.time()
+    while q and now - q[0] > EVENT_RATE_WINDOW:
+        q.popleft()
+    if len(q) >= EVENT_RATE_N:
+        return False
+    q.append(now)
+    return True
+
+
+def _store_event(record: dict) -> None:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with _lock, EVENTS_FILE.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def _store(record: dict) -> None:
@@ -95,6 +126,49 @@ def _format(record: dict, stage: str) -> str:
     )
 
 
+def _stats(days: int = 30) -> dict:
+    """Aggregated counters from the cookieless log. No per-visitor data exists to return."""
+    cutoff = time.strftime("%Y-%m-%d", time.gmtime(time.time() - days * 86400))
+    by_event: dict[str, int] = defaultdict(int)
+    by_day: dict[str, int] = defaultdict(int)
+    by_locale: dict[str, int] = defaultdict(int)
+    by_ref: dict[str, int] = defaultdict(int)
+    by_vp: dict[str, int] = defaultdict(int)
+    total = 0
+    try:
+        with EVENTS_FILE.open("r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                day = str(r.get("ts", ""))[:10]
+                if day < cutoff:
+                    continue
+                total += 1
+                by_event[r.get("e", "?")] += 1
+                if r.get("e") == "page_view":
+                    by_day[day] += 1
+                    by_locale[r.get("loc", "?")] += 1
+                    by_ref[r.get("ref", "direct")] += 1
+                    by_vp[r.get("vp", "unknown")] += 1
+    except FileNotFoundError:
+        pass
+    top = lambda d, n=10: dict(sorted(d.items(), key=lambda kv: -kv[1])[:n])  # noqa: E731
+    return {
+        "ok": True,
+        "site": SITE,
+        "days": days,
+        "events_total": total,
+        "page_views": by_event.get("page_view", 0),
+        "by_event": top(by_event, 20),
+        "page_views_by_day": dict(sorted(by_day.items())),
+        "by_locale": top(by_locale),
+        "by_referrer": top(by_ref),
+        "by_viewport": dict(by_vp),
+    }
+
+
 def _flush_partials() -> None:
     """Background: forward partials whose final never arrived."""
     while True:
@@ -120,12 +194,18 @@ class Handler(SimpleHTTPRequestHandler):
         print(f"{time.strftime('%H:%M:%S')} {self.command} {self.path.split('?')[0]}", flush=True)
 
     def do_GET(self):
-        if self.path.split("?")[0] in ("/api/health", "/health"):
+        path = self.path.split("?")[0]
+        if path in ("/api/health", "/health"):
             return self._json(200, {"ok": True, "site": SITE, "pending_partials": len(_pending)})
+        if path in ("/api/stats", "/stats"):
+            return self._json(200, _stats())
         return self._json(404, {"ok": False})
 
     def do_POST(self):
-        if self.path.split("?")[0] not in ("/api/lead", "/lead"):
+        path = self.path.split("?")[0]
+        if path in ("/api/e", "/e"):
+            return self._event()
+        if path not in ("/api/lead", "/lead"):
             return self._json(404, {"ok": False})
         ip = self.headers.get("X-Forwarded-For", self.client_address[0]).split(",")[0].strip()
         if not _allowed(ip):
@@ -192,6 +272,43 @@ class Handler(SimpleHTTPRequestHandler):
             return self._json(200, {"ok": True, "stored": True, "message_id": msg_id})
         # stored locally; the operator re-sends from the store if Telegram was down
         return self._json(200, {"ok": True, "stored": True, "forwarded": False})
+
+    def _event(self):
+        """Cookieless first-party counter. Runs for every visitor, no consent needed:
+        no cookie, no device id, no IP and no free-form text are stored."""
+        ip = self.headers.get("X-Forwarded-For", self.client_address[0]).split(",")[0].strip()
+        if not _allowed_event(ip):
+            return self._json(429, {"ok": False})
+        try:
+            n = min(int(self.headers.get("Content-Length", 0)), 2048)
+            data = json.loads(self.rfile.read(n))
+            if not isinstance(data, dict):
+                raise ValueError
+        except Exception:
+            return self._json(400, {"ok": False})
+        name = _clean(data.get("e"), 40)
+        if name not in EVENT_NAMES:
+            return self._json(204, {})
+        path = _clean(data.get("p"), 120)
+        if not path.startswith("/"):
+            path = "/"
+        ref = _clean(data.get("r"), 80).lower()
+        ref = "".join(ch for ch in ref if ch.isalnum() or ch in ".-:") or "direct"
+        try:
+            width = int(data.get("w") or 0)
+        except (TypeError, ValueError):
+            width = 0
+        record = {
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "e": name,
+            "p": path,
+            "loc": _clean(data.get("loc"), 5),
+            "ref": ref,
+            "vp": "mobile" if 0 < width < 768 else ("tablet" if width < 1200 else "desktop") if width else "unknown",
+            "v": _clean(data.get("v"), 40)[:40],
+        }
+        _store_event(record)
+        return self._json(204, {})
 
     def _json(self, code: int, payload: dict):
         body = json.dumps(payload).encode()

@@ -12,7 +12,11 @@ const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ["clipboard-read", "clipboard-write"] });
 const page = await ctx.newPage();
 const googleReqs = [];
-page.on("request", (r) => { if (/google-analytics|googletagmanager|doubleclick/.test(r.url())) googleReqs.push(r.url()); });
+const ownBeacons = [];
+page.on("request", (r) => {
+  if (/google-analytics|googletagmanager|doubleclick/.test(r.url())) googleReqs.push(r.url());
+  if (/\/api\/e$/.test(r.url())) ownBeacons.push(r.url());
+});
 
 for (const loc of ["en", "es", "pl", "ru"]) {
   await page.goto(`${BASE}/${loc}/`, { waitUntil: "networkidle" });
@@ -25,7 +29,10 @@ for (const loc of ["en", "es", "pl", "ru"]) {
   ok(`${loc}.jsonld`, (await page.locator('script[type="application/ld+json"]').count()) === 1);
   ok(`${loc}.noHorizontalOverflow`, !(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)));
 }
-ok("ga.zeroRequestsWithoutConsent", googleReqs.length === 0, googleReqs.length);
+// Measurement contract (2026-09-07): the first-party cookieless counter and GA4 Consent Mode
+// both run for every visitor; only GA *cookies* wait for Accept. See scripts/ga-check.mjs.
+ok("analytics.noGaCookiesWithoutConsent", (await ctx.cookies()).filter((c) => c.name.startsWith("_ga")).length === 0);
+ok("analytics.ownCounterFires", ownBeacons.length > 0, ownBeacons.length);
 
 // language switcher: click each chip from /en/, verify navigation + cookie
 for (const to of ["es", "pl", "ru", "en"]) {

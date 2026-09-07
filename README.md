@@ -7,7 +7,7 @@ The site answers the questions people ask their AI about autonomous shopping age
 ## What is in this repository
 
 - `web/` — Next.js 15 static export (`output: "export"`), next-intl with four locales (EN default, ES, PL, RU), Tailwind 4, dark theme, GA4 behind a consent gate (env-gated, zero trackers without consent), JSON-LD (SoftwareApplication, Person, WebSite, FAQPage), sitemap, robots that allow AI crawlers, `llms.txt`.
-- `form/` — tiny Python lead-form backend: stores every lead in a local JSONL file first, then forwards it to a Telegram bot with the message id as proof; honeypot, time-to-submit flag, per-IP rate limit, partial capture with delayed forwarding. No PII in logs.
+- `form/` — tiny Python backend with two jobs. **Leads:** stored in a local JSONL file first, then forwarded to a Telegram bot with the message id as proof; honeypot, time-to-submit flag, per-IP rate limit, partial capture with delayed forwarding. **Metrics:** `POST /api/e` is a first-party, cookieless counter that runs for every visitor with no consent needed — no cookie, no device id, no IP stored, allow-listed event names only; `GET /api/stats` returns aggregated counters and is reachable from the server itself only (`ops/stats.sh`).
 - `deploy/` — Docker Compose for a shared Hetzner hub behind `nginx-proxy` + `acme-companion` (no host ports, own internal network, memory and pid limits, log rotation) and the nginx config with locale detection (cookie beats `Accept-Language`, `Accept-Language` beats the English default).
 
 ## Build and verify
@@ -19,7 +19,7 @@ NEXT_PUBLIC_TEST_COUNT=166 NEXT_PUBLIC_GA_ID=G-2288CN6DJW npm run build   # GA4 
 node scripts/fix-lang.mjs          # per-locale <html lang> after static export
 node scripts/shots.mjs             # Playwright screenshots + heading visibility + overflow checks
 node scripts/verify-live.mjs       # DoD: locales, switcher + cookie, form e2e, links, sticky CTA
-node scripts/ga-check.mjs          # GA4 consent gate: 0 requests before Accept, /g/collect 204 after
+node scripts/ga-check.mjs          # measurement: own counter + GA4 fire without consent, GA cookies only after Accept
 ```
 
 `out/` is what nginx serves. Locale redirect on `/` is done by nginx, not by the app, so a plain static host needs the same redirect rule or a link to `/en/`.
@@ -34,6 +34,14 @@ ssh -p 2222 fpv@hub 'cd ~/agentic-shopping && tar xzf dist.tgz -C dist && docker
 ```
 
 `config.env` (Telegram bot token and chat id) lives only on the server with `chmod 600` and is never committed.
+
+## Metrics
+
+Two layers, both always on. The first-party counter (`/api/e`) measures every visitor without cookies or identifiers, so traffic is recorded whatever the visitor does with the cookie banner. Google Analytics 4 loads in Google Consent Mode v2: denied by default (cookieless pings, nothing stored on the device) and upgraded to granted when the visitor accepts. Read the numbers with:
+
+```bash
+ops/stats.sh 30     # aggregated page views, events, locales, referrers, viewports
+```
 
 ## Translations
 

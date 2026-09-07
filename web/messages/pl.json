@@ -8,7 +8,7 @@
   },
   "consent": {
     "title": "Pliki cookie analityczne?",
-    "text": "Pomagają mi zobaczyć, które sekcje ludzie czytają. Nic nie jest ładowane, dopóki nie zdecydujesz.",
+    "text": "Podstawowy pomiar bez ciasteczek działa tak czy inaczej; akceptacja dodaje wyłącznie ciasteczka analityczne Google.",
     "accept": "Zgadzam się na analitykę",
     "decline": "Odrzuć"
   },
@@ -574,7 +574,7 @@
     "privacy": [
       "Niezależny projekt open source. Niepowiązany z Allegro, OLX, Anthropic, OpenAI, Google ani żadnym bankiem, przez nie nieautoryzowany ani niecertyfikowany. Allegro, Smart!, Allegro Pay, OLX, Claude i Codex są znakami towarowymi ich właścicieli, wymienionymi wyłącznie w celu opisania zgodności.",
       "Oprogramowanie w fazie alfa, dostarczane „w stanie, w jakim jest” („as is”), bez jakiejkolwiek gwarancji (Apache-2.0). Dotychczas jeden realny zakup. Zautomatyzowane korzystanie z platformy może naruszać jej regulamin (Regulamin Allegro obowiązujący od 2026-09-01, art. 2.8, 10.10, 10.11, 8) i może prowadzić do zawieszenia konta; autor zaakceptował to ryzyko dla siebie — Ty decydujesz za siebie. Każdy zakup w ramach Twojego mandatu jest Twoim zakupem. Nic na tej stronie nie stanowi porady finansowej, prawnej ani inwestycyjnej.",
-      "Administrator danych: Andrii Shramko, flyreelstudio.eu, Polska (zmei116@gmail.com). Dane z formularza kontaktowego są przechowywane na serwerze w UE i przekazywane do prywatnego kanału Telegram autora wyłącznie w celu odpowiedzi oraz — jeśli o to poprosiłeś — wysyłania okazjonalnych aktualizacji; przechowywane 12 miesięcy od ostatniego kontaktu; usunięcie na żądanie; przysługuje Ci skarga do polskiego organu nadzorczego (UODO). Analityka (Google Analytics 4) ładuje się dopiero po Twojej zgodzie; wcześniej nic nie jest wysyłane do Google."
+      "Administrator danych: Andrii Shramko, flyreelstudio.eu, Polska (zmei116@gmail.com). Dane z formularza kontaktowego są przechowywane na serwerze w UE i przekazywane do prywatnego kanału Telegram autora wyłącznie w celu odpowiedzi oraz — jeśli o to poprosiłeś — wysyłania okazjonalnych aktualizacji; przechowywane 12 miesięcy od ostatniego kontaktu; usunięcie na żądanie; przysługuje Ci skarga do polskiego organu nadzorczego (UODO). Pomiar: ta strona sama liczy odsłony i kliknięcia — bez ciasteczek i bez zapisywania Twojego adresu IP ani żadnego identyfikatora, wyłącznie nazwę zdarzenia, stronę, język, witrynę odsyłającą i przedział rozmiaru ekranu. Google Analytics 4 działa w trybie zgody Google (Consent Mode): zanim wyrazisz zgodę, nie zapisuje nic na Twoim urządzeniu, a ciasteczka analityczne pojawiają się tylko po akceptacji."
     ],
     "license": "Kod Apache-2.0 · dokumentacja CC BY 4.0",
     "updated": "Aktualizacja {date}"
