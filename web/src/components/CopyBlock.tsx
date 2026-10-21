@@ -9,7 +9,7 @@ export default function CopyBlock({ text, label, copied, event = "copy_agent_pro
     try {
       await navigator.clipboard.writeText(text);
       setOk(true);
-      track(event);
+      track(event, { copy_id: id ?? "copy-block" });
       setTimeout(() => setOk(false), 2500);
     } catch {
       // Clipboard blocked: select the text so the user can copy manually

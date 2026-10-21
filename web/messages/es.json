@@ -8,9 +8,10 @@
   },
   "consent": {
     "title": "¿Cookies de analítica?",
-    "text": "La medición básica sin cookies funciona igualmente; aceptar solo añade las cookies analíticas de Google.",
+    "text": "Google Analytics 4 solo funciona si aceptas: guarda las cookies _ga y _ga_2288CN6DJW (14 meses) para que el autor vea qué partes de la página resultan útiles. Rechazar no cambia nada en la página.",
     "accept": "Aceptar analítica",
-    "decline": "Rechazar"
+    "decline": "Rechazar",
+    "settings": "Configuración de cookies"
   },
   "sticky": {
     "note": "Tope de gasto que firmas tú",
@@ -574,7 +575,7 @@
     "privacy": [
       "Proyecto independiente de código abierto. Sin afiliación, respaldo ni certificación de Allegro, OLX, Anthropic, OpenAI, Google ni de ningún banco. Allegro, Smart!, Allegro Pay, OLX, Claude y Codex son marcas de sus respectivos titulares, mencionadas únicamente para describir compatibilidad.",
       "Software alfa que se proporciona «tal cual», sin garantía de ningún tipo (Apache-2.0). Una sola compra real hasta la fecha. El uso automatizado de un marketplace puede incumplir sus términos (reglamento de Allegro vigente desde el 2026-09-01, art. 2.8, 10.10, 10.11, 8) y puede conllevar la suspensión de la cuenta; el autor aceptó ese riesgo para sí mismo; tú decides por ti. Cada compra bajo tu mandato es tu compra. Nada en esta página constituye asesoramiento financiero, jurídico ni de inversión.",
-      "Responsable del tratamiento: Andrii Shramko, flyreelstudio.eu, Polonia (zmei116@gmail.com). Los datos del formulario de contacto se almacenan en un servidor de la UE y se reenvían a un canal privado de Telegram del autor únicamente para responder y, si lo has pedido, para enviar novedades ocasionales; se conservan 12 meses tras el último contacto; supresión a petición; puedes reclamar ante la autoridad de control polaca (UODO). Medición: este sitio cuenta las visitas y los clics por su cuenta, sin cookies y sin guardar tu dirección IP ni ningún identificador: solo el nombre del evento, la página, el idioma, el sitio de procedencia y un rango de tamaño de pantalla. Google Analytics 4 funciona en el Modo de consentimiento de Google: antes de que aceptes no guarda nada en tu dispositivo, y las cookies analíticas se instalan solo si aceptas."
+      "Responsable del tratamiento: Andrii Shramko, flyreelstudio.eu, Polonia (zmei116@gmail.com). Los datos del formulario de contacto se almacenan en un servidor de la UE y se reenvían a un canal privado de Telegram del autor únicamente para responder y, si lo has pedido, para enviar novedades ocasionales; se conservan 12 meses tras el último contacto; supresión a petición; puedes reclamar ante la autoridad de control polaca (UODO). Medición: el servidor cuenta las solicitudes de páginas a partir de su registro de acceso, y los recuentos se guardan sin direcciones IP. Google Analytics 4 (Google Ireland Ltd.) se carga solo después de que pulses «Aceptar analítica»; antes, esta página no envía nada a Google. Con tu consentimiento, GA4 guarda las cookies _ga y _ga_2288CN6DJW (se conservan 14 meses) y la página también cuenta los clics en su propio servidor (sin cookie y sin dirección IP). Puedes retirar el consentimiento en cualquier momento con «Configuración de cookies», al pie de la página: las cookies de GA se borran y no se envía nada más. La única cookie que se guarda sin consentimiento es asa_lang, que recuerda el idioma que elegiste."
     ],
     "license": "Código Apache-2.0 · Documentación CC BY 4.0",
     "updated": "Actualizado {date}"

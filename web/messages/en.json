@@ -8,9 +8,10 @@
   },
   "consent": {
     "title": "Analytics cookies?",
-    "text": "Basic, cookieless measurement runs either way; accepting only adds Google's analytics cookies.",
+    "text": "Google Analytics 4 runs only if you accept: it sets the cookies _ga and _ga_2288CN6DJW (14 months) so the author can see which parts of this page help. Declining changes nothing on the page.",
     "accept": "Accept analytics",
-    "decline": "Decline"
+    "decline": "Decline",
+    "settings": "Cookie settings"
   },
   "sticky": {
     "note": "Spending cap you sign",
@@ -574,7 +575,7 @@
     "privacy": [
       "Independent open-source project. Not affiliated with, endorsed by or certified by Allegro, OLX, Anthropic, OpenAI, Google or any bank. Allegro, Smart!, Allegro Pay, OLX, Claude and Codex are trademarks of their owners, named only to describe compatibility.",
       "Alpha software provided \"as is\" without warranty of any kind (Apache-2.0). One real purchase so far. Automated use of a marketplace may breach its terms (Allegro regulation effective 2026-09-01, art. 2.8, 10.10, 10.11, 8) and can lead to account suspension; the author accepted that risk for himself — you decide for yourself. Every purchase under your mandate is your purchase. Nothing on this page is financial, legal or investment advice.",
-      "Data controller: Andrii Shramko, flyreelstudio.eu, Poland (zmei116@gmail.com). Lead-form data is stored on an EU server and forwarded to a private Telegram channel of the author only to reply and, if you asked for it, to send occasional updates; kept for 12 months after the last contact; erasure on request; you may complain to the Polish supervisory authority (UODO). Measurement: this site counts page views and clicks itself — without cookies and without storing your IP address or any identifier, only the event name, page, language, referring site and a screen-size bucket. Google Analytics 4 runs in Google's Consent Mode: before you accept it stores nothing on your device, and analytics cookies are set only if you accept."
+      "Data controller: Andrii Shramko, flyreelstudio.eu, Poland (zmei116@gmail.com). Lead-form data is stored on an EU server and forwarded to a private Telegram channel of the author only to reply and, if you asked for it, to send occasional updates; kept for 12 months after the last contact; erasure on request; you may complain to the Polish supervisory authority (UODO). Measurement: the server counts page requests from its access log, and the counts are stored without IP addresses. Google Analytics 4 (Google Ireland Ltd.) loads only after you click \"Accept analytics\" — before that this page sends nothing to Google. With your consent GA4 sets the cookies _ga and _ga_2288CN6DJW (kept for 14 months) and the page also counts clicks on its own server (no cookie, no IP address). You can withdraw consent at any time with \"Cookie settings\" at the bottom of the page: the GA cookies are deleted and nothing more is sent. The only cookie set without consent is asa_lang, which remembers the language you chose."
     ],
     "license": "Apache-2.0 code · CC BY 4.0 docs",
     "updated": "Updated {date}"

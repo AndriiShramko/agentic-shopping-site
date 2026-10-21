@@ -39,7 +39,7 @@ export default function StickyCTA() {
     >
       <div className="flex items-center gap-3">
         <p className="min-w-0 flex-1 truncate text-sm text-muted">{t("note")}</p>
-        <a href="#install" tabIndex={show ? 0 : -1} onClick={() => track("cta_click", { where: "sticky" })} className="inline-flex min-h-11 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-[#1a0f05]">
+        <a href="#install" tabIndex={show ? 0 : -1} onClick={() => track("cta_click", { cta_id: "sticky_install", cta_location: "sticky" })} className="inline-flex min-h-11 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-[#1a0f05]">
           {t("cta")}
         </a>
       </div>

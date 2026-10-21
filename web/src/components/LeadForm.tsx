@@ -53,6 +53,7 @@ export default function LeadForm() {
   const mountRef = useRef<number>(0);
   const partialSent = useRef(false);
   const openedRef = useRef(false);
+  const stepsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     mountRef.current = Date.now();
@@ -96,10 +97,17 @@ export default function LeadForm() {
     };
   }
 
+  // Analytics: form_start on the first interaction, form_step once per field group.
+  // Only chip values (intent, agent) are ever sent — never the contact, message or leadId.
   function update(patch: Partial<Draft>) {
     if (!openedRef.current) {
       openedRef.current = true;
-      track("form_open");
+      track("form_start", { form_id: "lead" });
+    }
+    const step = "intent" in patch ? "intent" : "agent" in patch ? "agent" : "contact" in patch ? "contact" : "message" in patch ? "message" : "consent" in patch ? "consent" : "";
+    if (step && !stepsRef.current.has(step)) {
+      stepsRef.current.add(step);
+      track("form_step", { form_id: "lead", step });
     }
     setD((prev) => (prev ? { ...prev, ...patch } : prev));
   }
@@ -108,16 +116,22 @@ export default function LeadForm() {
     e.preventDefault();
     if (!d || !valid || state === "sending") return;
     setState("sending");
-    track("form_submit", { intent: d.intent || "other", agent: d.agent });
+    const lead_type = d.intent || "other";
+    track("form_submit", { form_id: "lead", lead_type, agent: d.agent || "unknown" });
     try {
       const r = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload(d), stage: "final" }),
       });
-      if (!r.ok) throw new Error(String(r.status));
+      if (!r.ok) {
+        track("form_error", { form_id: "lead", error_type: `http_${r.status}` });
+        setState("error");
+        return;
+      }
       setState("done");
-      track("form_success", { intent: d.intent || "other" });
+      // generate_lead only after the server confirmed the lead was stored (2xx)
+      track("generate_lead", { form_id: "lead", lead_type, agent: d.agent || "unknown" });
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch {
@@ -125,7 +139,7 @@ export default function LeadForm() {
       }
     } catch {
       setState("error");
-      track("form_error");
+      track("form_error", { form_id: "lead", error_type: "network" });
     }
   }
 

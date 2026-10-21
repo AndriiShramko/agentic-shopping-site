@@ -10,6 +10,7 @@ import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import StickyCTA from "@/components/StickyCTA";
 import TrackLink from "@/components/TrackLink";
+import CookieSettingsButton from "@/components/CookieSettingsButton";
 
 type Item = { t: string; d: string };
 type Step = { k: string; v: string };
@@ -67,13 +68,13 @@ function Page({ locale }: { locale: string }) {
             </span>
           </a>
           <nav aria-label="Primary" className="flex items-center gap-2 sm:gap-4">
-            <TrackLink href={REPO} event="github_click" className="hidden text-sm text-muted hover:text-ink md:inline">
+            <TrackLink href={REPO} event="github_click" params={{ link_id: "repo", cta_location: "header" }} className="hidden text-sm text-muted hover:text-ink md:inline">
               {t("nav.github")}
             </TrackLink>
-            <a href="#install" className="hidden text-sm text-muted hover:text-ink md:inline">
+            <TrackLink href="#install" event="cta_click" params={{ cta_id: "nav_install", cta_location: "header" }} className="hidden text-sm text-muted hover:text-ink md:inline">
               {t("nav.install")}
-            </a>
-            <TrackLink href="#contact" event="cta_click" params={{ where: "header" }} className="inline-flex min-h-10 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-[#1a0f05] hover:bg-accent-strong">
+            </TrackLink>
+            <TrackLink href="#contact" event="cta_click" params={{ cta_id: "header_contact", cta_location: "header" }} className="inline-flex min-h-10 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-[#1a0f05] hover:bg-accent-strong">
               {t("nav.contact")}
             </TrackLink>
             <div className="hidden lg:block">
@@ -87,7 +88,7 @@ function Page({ locale }: { locale: string }) {
             <ul className="hidden gap-4 text-xs text-muted sm:flex">
               {anchors.map(([href, label]) => (
                 <li key={href}>
-                  <a href={href} className="whitespace-nowrap hover:text-ink">
+                  <a href={href} className="whitespace-nowrap hover:text-ink" data-track="cta_click" data-track-params={JSON.stringify({ cta_id: `nav_${href.slice(1)}`, cta_location: "nav" })}>
                     {label}
                   </a>
                 </li>
@@ -106,10 +107,10 @@ function Page({ locale }: { locale: string }) {
               <h1 className="text-4xl font-semibold sm:text-5xl lg:text-[3.6rem]">{t("hero.h1")}</h1>
               <p className="mt-6 max-w-xl text-lg text-muted sm:text-xl">{t("hero.sub")}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <TrackLink href="#install" event="cta_click" params={{ where: "hero" }} className={btnPrimary}>
+                <TrackLink href="#install" event="cta_click" params={{ cta_id: "hero_install", cta_location: "hero" }} className={btnPrimary}>
                   {t("hero.ctaPrimary")}
                 </TrackLink>
-                <TrackLink href={REPO} event="github_click" className={btnSecondary}>
+                <TrackLink href={REPO} event="github_click" params={{ link_id: "repo", cta_location: "hero" }} className={btnSecondary}>
                   {t("hero.ctaSecondary")}
                 </TrackLink>
               </div>
@@ -174,9 +175,9 @@ function Page({ locale }: { locale: string }) {
                   ))}
                 </ul>
               </Card>
-              <a href="#install" className="inline-flex text-sm font-medium text-accent-strong underline">
+              <TrackLink href="#install" event="cta_click" params={{ cta_id: "flow_install", cta_location: "flow" }} className="inline-flex text-sm font-medium text-accent-strong underline">
                 {t("flow.cta")}
-              </a>
+              </TrackLink>
             </div>
           </div>
         </Section>
@@ -198,7 +199,7 @@ function Page({ locale }: { locale: string }) {
             ))}
           </div>
           <div className="mt-10">
-            <TrackLink href="#install" event="cta_click" params={{ where: "why" }} className={btnPrimary}>
+            <TrackLink href="#install" event="cta_click" params={{ cta_id: "why_install", cta_location: "why" }} className={btnPrimary}>
               {t("why.cta")}
             </TrackLink>
           </div>
@@ -273,10 +274,10 @@ function Page({ locale }: { locale: string }) {
             </div>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <TrackLink href="#install" event="cta_click" params={{ where: "guard" }} className={btnPrimary}>
+            <TrackLink href="#install" event="cta_click" params={{ cta_id: "guard_install", cta_location: "guard" }} className={btnPrimary}>
               {t("guard.cta")}
             </TrackLink>
-            <TrackLink href={`${REPO}/blob/main/SECURITY.md`} event="github_click" className="text-sm underline hover:text-ink">
+            <TrackLink href={`${REPO}/blob/main/SECURITY.md`} event="github_click" params={{ link_id: "security", cta_location: "guard" }} className="text-sm underline hover:text-ink">
               {t("guard.link")}
             </TrackLink>
           </div>
@@ -300,7 +301,7 @@ function Page({ locale }: { locale: string }) {
                 ))}
               </ol>
               <p className="mt-3 text-sm">
-                <TrackLink href={`${REPO}#quickstart-for-humans`} event="github_click" className="underline hover:text-ink">
+                <TrackLink href={`${REPO}#quickstart-for-humans`} event="github_click" params={{ link_id: "quickstart", cta_location: "install" }} className="underline hover:text-ink">
                   {t("install.humansLink")}
                 </TrackLink>
               </p>
@@ -313,17 +314,17 @@ function Page({ locale }: { locale: string }) {
               </div>
               <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                 <li>
-                  <TrackLink href={`${REPO}/blob/main/AGENT_SETUP.md`} event="github_click" className="underline hover:text-ink">
+                  <TrackLink href={`${REPO}/blob/main/AGENT_SETUP.md`} event="github_click" params={{ link_id: "agent_setup", cta_location: "install" }} className="underline hover:text-ink">
                     AGENT_SETUP.md
                   </TrackLink>
                 </li>
                 <li>
-                  <TrackLink href={`${REPO}/blob/main/AGENTS.md`} event="github_click" className="underline hover:text-ink">
+                  <TrackLink href={`${REPO}/blob/main/AGENTS.md`} event="github_click" params={{ link_id: "agents_md", cta_location: "install" }} className="underline hover:text-ink">
                     AGENTS.md
                   </TrackLink>
                 </li>
                 <li>
-                  <TrackLink href={`${REPO}/blob/main/skills/allegro.pl/SKILL.md`} event="github_click" className="underline hover:text-ink">
+                  <TrackLink href={`${REPO}/blob/main/skills/allegro.pl/SKILL.md`} event="github_click" params={{ link_id: "allegro_skill", cta_location: "install" }} className="underline hover:text-ink">
                     SKILL.md
                   </TrackLink>
                 </li>
@@ -353,15 +354,15 @@ function Page({ locale }: { locale: string }) {
             ))}
           </ol>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <TrackLink href="#install" event="cta_click" params={{ where: "warnings" }} className={btnPrimary}>
+            <TrackLink href="#install" event="cta_click" params={{ cta_id: "warnings_install", cta_location: "warnings" }} className={btnPrimary}>
               {t("warnings.cta")}
             </TrackLink>
             <p className="text-sm text-muted">
-              <TrackLink href={`${REPO}/blob/main/docs/warnings.md`} event="github_click" className="underline hover:text-ink">
+              <TrackLink href={`${REPO}/blob/main/docs/warnings.md`} event="github_click" params={{ link_id: "warnings_doc", cta_location: "warnings" }} className="underline hover:text-ink">
                 {t("warnings.link")}
               </TrackLink>
               {" · "}
-              <TrackLink href={`${REPO}/blob/main/SECURITY.md`} event="github_click" className="underline hover:text-ink">
+              <TrackLink href={`${REPO}/blob/main/SECURITY.md`} event="github_click" params={{ link_id: "security", cta_location: "warnings" }} className="underline hover:text-ink">
                 {t("warnings.security")}
               </TrackLink>
             </p>
@@ -402,7 +403,7 @@ function Page({ locale }: { locale: string }) {
           </div>
           <p className="mt-4 max-w-3xl text-sm text-muted">
             {t("compare.note")}{" "}
-            <TrackLink href={`${REPO}/blob/main/docs/landscape.md`} event="github_click" className="underline hover:text-ink">
+            <TrackLink href={`${REPO}/blob/main/docs/landscape.md`} event="github_click" params={{ link_id: "landscape", cta_location: "compare" }} className="underline hover:text-ink">
               {t("compare.link")}
             </TrackLink>
           </p>
@@ -413,9 +414,9 @@ function Page({ locale }: { locale: string }) {
           <H2>{t("faq.title")}</H2>
           <Faq items={faq} />
           <p className="mt-6 text-sm">
-            <a href="#contact" className="underline hover:text-accent-strong">
+            <TrackLink href="#contact" event="cta_click" params={{ cta_id: "faq_contact", cta_location: "faq" }} className="underline hover:text-accent-strong">
               {t("faq.cta")}
-            </a>
+            </TrackLink>
           </p>
         </Section>
 
@@ -433,12 +434,12 @@ function Page({ locale }: { locale: string }) {
               </ul>
               <p className="mt-6 text-lg font-semibold text-ink">{t("about.collab")}</p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <TrackLink href={AUTHOR.calendar} event="cta_click" params={{ where: "about-calendar" }} className={btnPrimary}>
+                <TrackLink href={AUTHOR.calendar} event="cta_click" params={{ cta_id: "about_calendar", cta_location: "about" }} className={btnPrimary}>
                   {t("about.cta")}
                 </TrackLink>
-                <a href="#contact" className={btnSecondary}>
+                <TrackLink href="#contact" event="cta_click" params={{ cta_id: "about_form", cta_location: "about" }} className={btnSecondary}>
                   {t("about.ctaForm")}
-                </a>
+                </TrackLink>
               </div>
               <dl className="mt-8 grid gap-2 text-sm">
                 <div className="flex gap-3">
@@ -448,7 +449,7 @@ function Page({ locale }: { locale: string }) {
                 <div className="flex gap-3">
                   <dt className="w-28 shrink-0 text-muted">LinkedIn</dt>
                   <dd>
-                    <a href={AUTHOR.linkedin} className="break-all underline hover:text-accent-strong" rel="me">
+                    <a href={AUTHOR.linkedin} className="break-all underline hover:text-accent-strong" rel="me" data-track="contact_click" data-track-params='{"method":"linkedin","cta_location":"about"}'>
                       linkedin.com/in/andrii-shramko
                     </a>
                   </dd>
@@ -456,7 +457,7 @@ function Page({ locale }: { locale: string }) {
                 <div className="flex gap-3">
                   <dt className="w-28 shrink-0 text-muted">{t("about.links.calendar")}</dt>
                   <dd>
-                    <a href={AUTHOR.calendar} className="break-all underline hover:text-accent-strong">
+                    <a href={AUTHOR.calendar} className="break-all underline hover:text-accent-strong" data-track="contact_click" data-track-params='{"method":"calendar","cta_location":"about"}'>
                       calendar.app.google/Ff729HqGk4RpzPNDA
                     </a>
                   </dd>
@@ -464,7 +465,7 @@ function Page({ locale }: { locale: string }) {
                 <div className="flex gap-3">
                   <dt className="w-28 shrink-0 text-muted">Email</dt>
                   <dd>
-                    <a href={`mailto:${AUTHOR.email}`} className="underline hover:text-accent-strong">
+                    <a href={`mailto:${AUTHOR.email}`} className="underline hover:text-accent-strong" data-track="contact_click" data-track-params='{"method":"email","cta_location":"about"}'>
                       {AUTHOR.email}
                     </a>
                   </dd>
@@ -472,7 +473,7 @@ function Page({ locale }: { locale: string }) {
                 <div className="flex gap-3">
                   <dt className="w-28 shrink-0 text-muted">GitHub</dt>
                   <dd>
-                    <a href={AUTHOR.github} className="underline hover:text-accent-strong" rel="me">
+                    <a href={AUTHOR.github} className="underline hover:text-accent-strong" rel="me" data-track="github_click" data-track-params='{"link_id":"author_profile","cta_location":"about"}'>
                       github.com/AndriiShramko
                     </a>
                   </dd>
@@ -501,10 +502,10 @@ function Page({ locale }: { locale: string }) {
             ))}
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
-            <TrackLink href={`${REPO}/issues`} event="github_click" className={btnSecondary}>
+            <TrackLink href={`${REPO}/issues`} event="github_click" params={{ link_id: "issues", cta_location: "share" }} className={btnSecondary}>
               {t("share.issue")}
             </TrackLink>
-            <TrackLink href={`${REPO}/blob/main/CONTRIBUTING.md`} event="github_click" className={btnSecondary}>
+            <TrackLink href={`${REPO}/blob/main/CONTRIBUTING.md`} event="github_click" params={{ link_id: "contributing", cta_location: "share" }} className={btnSecondary}>
               {t("share.contrib")}
             </TrackLink>
           </div>
@@ -528,11 +529,11 @@ function Page({ locale }: { locale: string }) {
             <LangSwitcher locale={locale as Locale} />
           </div>
           <p className="mt-4 text-sm text-muted">
-            <TrackLink href={REPO} event="github_click" className="underline hover:text-ink">
+            <TrackLink href={REPO} event="github_click" params={{ link_id: "repo", cta_location: "footer" }} className="underline hover:text-ink">
               GitHub
             </TrackLink>
             {" · "}
-            <TrackLink href={`${REPO}/blob/main/CHANGELOG.md`} event="github_click" className="underline hover:text-ink">
+            <TrackLink href={`${REPO}/blob/main/CHANGELOG.md`} event="github_click" params={{ link_id: "changelog", cta_location: "footer" }} className="underline hover:text-ink">
               Changelog
             </TrackLink>
             {" · "}
@@ -543,6 +544,8 @@ function Page({ locale }: { locale: string }) {
             <a href="/sitemap.xml" className="underline hover:text-ink">
               sitemap
             </a>
+            {" · "}
+            <CookieSettingsButton label={t("consent.settings")} />
           </p>
         </div>
       </footer>
