@@ -1,4 +1,4 @@
-# agentic-shopping.flyreelstudio.eu — open to search engines AND AI answer engines (playbook §7)
+# agentic-shopping.flyreelstudio.eu - open to search engines AND AI answer engines (playbook section 7)
 User-agent: *
 Allow: /
 
